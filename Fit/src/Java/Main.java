@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Java;
+import View.Principal;
 
 /**
  *
@@ -15,7 +16,9 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Principal p = new Principal();
+        p.setVisible(true);
+        
     }
     
 }
