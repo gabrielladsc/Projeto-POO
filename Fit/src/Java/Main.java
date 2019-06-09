@@ -6,13 +6,6 @@
 package Java;
 import View.LoginInstrutor;
 
-import Data.Exercicio;
-import Data.Instrutor;
-import Data.MySqlConnector;
-import Data.dao.ExercicioDao;
-import Data.dao.InstrutorDao;
-import java.util.List;
-
 /**
  *
  * @author gabi0

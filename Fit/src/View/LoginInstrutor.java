@@ -5,6 +5,9 @@
  */
 package View;
 
+import Data.Instrutor;
+import Data.dao.InstrutorDao;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -128,19 +131,27 @@ public class LoginInstrutor extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //variáveis para guardar conteúdo do campo de texto e senha
         String text, senha;
-        
+
         //pegando conteúdo de texto e senha
         text = jTextField1.getText();
         senha = jPasswordField1.getText();
 
-        //verificando se algum dos campos não está vazio
-        if (!text.equals("") && !senha.equals("")){
-            Principal prin = new Principal();
-            prin.setVisible(true);
-            this.dispose();
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Campo vazio");
+        InstrutorDao instrutorDao = new InstrutorDao();
+        List<Instrutor> listaDeInstrutores = instrutorDao.recuperarInstrutor();
+
+        if (listaDeInstrutores.isEmpty()) {
+             JOptionPane.showMessageDialog(null, "Registre um novo instrutor!");
+        } else {
+            for (Instrutor instrutor : listaDeInstrutores) {
+                if (text.equals(instrutor.getNome()) && senha.equals(instrutor.getSenha())) {
+                    Principal prin = new Principal();
+                    prin.setVisible(true);
+                    this.dispose();
+                    break;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Informações inválidas");
+                }
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
