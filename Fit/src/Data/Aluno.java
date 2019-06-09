@@ -84,6 +84,4 @@ public class Aluno {
                 ", sexo = " + sexo + ", objetivo = " + objetivo + '}';
     }
     
-    
-    
 }
