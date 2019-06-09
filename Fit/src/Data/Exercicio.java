@@ -9,14 +9,14 @@ package Data;
  *
  * @author Guilherme
  */
-public class Exercício {
+public class Exercicio {
     
     private int id;
     private String nome;
     private String series;
     private String repeticoes;
 
-    public Exercício(String nome, String series, String repeticoes) {
+    public Exercicio(String nome, String series, String repeticoes) {
         this.nome = nome;
         this.series = series;
         this.repeticoes = repeticoes;

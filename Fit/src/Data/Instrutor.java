@@ -10,7 +10,7 @@ package Data;
  * @author Guilherme
  */
 public class Instrutor {
-    
+
     private int id;
     private String nome;
     private String senha;
@@ -18,6 +18,18 @@ public class Instrutor {
     public Instrutor(String nome, String senha) {
         this.nome = nome;
         this.senha = senha;
+    }
+
+    public Instrutor() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
