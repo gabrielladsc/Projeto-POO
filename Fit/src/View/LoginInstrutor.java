@@ -139,18 +139,24 @@ public class LoginInstrutor extends javax.swing.JFrame {
         InstrutorDao instrutorDao = new InstrutorDao();
         List<Instrutor> listaDeInstrutores = instrutorDao.recuperarInstrutor();
 
+        boolean instrutorOk = false;
+
         if (listaDeInstrutores.isEmpty()) {
-             JOptionPane.showMessageDialog(null, "Registre um novo instrutor!");
+            JOptionPane.showMessageDialog(null, "Registre um novo instrutor!");
         } else {
-            for (Instrutor instrutor : listaDeInstrutores) {
-                if (text.equals(instrutor.getNome()) && senha.equals(instrutor.getSenha())) {
+            for (int i = 0; i < listaDeInstrutores.size(); i++) {
+                if (text.equals(listaDeInstrutores.get(i).getNome())
+                        && senha.equals(listaDeInstrutores.get(i).getSenha())) {
                     Principal prin = new Principal();
                     prin.setVisible(true);
                     this.dispose();
+                    instrutorOk = true;
                     break;
-                } else {
-                    JOptionPane.showMessageDialog(null, "Informações inválidas");
                 }
+            }
+
+            if (!instrutorOk) {
+                JOptionPane.showMessageDialog(null, "Informações inválidas");
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
