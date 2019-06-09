@@ -7,22 +7,15 @@ package Data.dao;
 
 import Data.Instrutor;
 import Data.MySqlConnector;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author Guilherme
+ * @author gabi0
  */
-public class InstrutorDao {
-
-    private Connection connection = null;
-    private Statement statement = null;
-    private ResultSet resultSet = null;
+public class InstrutorDao extends Dao {
 
     public InstrutorDao() {
         this.connection = MySqlConnector.getConnection();
@@ -31,7 +24,8 @@ public class InstrutorDao {
     public boolean adicionarInstrutor(Instrutor instrutor) {
         try {
             this.statement = this.connection.createStatement();
-            String query = "INSERT INTO instrutor (nome, senha) VALUES ('" + instrutor.getNome() + "','" + instrutor.getSenha() + "');";
+            String query = "INSERT INTO instrutor (nome, senha) VALUES ('" + 
+                    instrutor.getNome() + "','" + instrutor.getSenha() + "');";
             this.statement.executeUpdate(query);
             return true;
         } catch (SQLException sqlException) {
@@ -57,15 +51,15 @@ public class InstrutorDao {
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
-        
+
         return listaDeInstrutores;
     }
-    
+
     public boolean atualizarInstrutor(Instrutor instrutor) {
-        String queryRecuperarInstrutor = "SELECT * FROM instrutor WHERE nome = " 
-                + '"' + instrutor.getNome() +'"' + " LIMIT 1";
+        String queryRecuperarInstrutor = "SELECT * FROM instrutor WHERE nome = "
+                + '"' + instrutor.getNome() + '"' + " LIMIT 1";
         Instrutor novoInstrutor = new Instrutor();
-        
+
         try {
             this.statement = this.connection.createStatement();
             this.resultSet = this.statement.executeQuery(queryRecuperarInstrutor);
@@ -74,17 +68,17 @@ public class InstrutorDao {
                 novoInstrutor.setNome(this.resultSet.getString("nome"));
                 novoInstrutor.setSenha(instrutor.getSenha());
             }
-            
-            String queryAtualizar = "UPDATE instrutor SET senha = " + '"' + 
-                instrutor.getSenha() + '"' + " WHERE instrutor_id = " + '"' 
-                + novoInstrutor.getId() + '"';
-            
-            this.statement.executeUpdate(queryAtualizar);            
+
+            String queryAtualizar = "UPDATE instrutor SET senha = " + '"'
+                    + instrutor.getSenha() + '"' + " WHERE instrutor_id = " + '"'
+                    + novoInstrutor.getId() + '"';
+
+            this.statement.executeUpdate(queryAtualizar);
             return true;
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
             return false;
         }
-        
+
     }
 }
