@@ -37,7 +37,7 @@ public class ExercicioDao extends Dao {
     }
 
     public List<Exercicio> recuperarExercicios() {
-        String query = "SELECT * FROM exericicio";
+        String query = "SELECT * FROM exercicio";
         List<Exercicio> listaDeExercicios = new ArrayList();
 
         try {

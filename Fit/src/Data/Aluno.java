@@ -7,19 +7,20 @@ package Data;
 
 /**
  *
- * @author Guilherme
+ * @author gabi0
  */
 public class Aluno {
-    
+
     private int id;
+    private int instrutorId;
     private String nome;
-    private int idade;
-    private int altura;
-    private int peso;
+    private String idade;
+    private String altura;
+    private String peso;
     private int sexo;
     private String objetivo;
 
-    public Aluno(String nome, int idade, int altura, int peso, int sexo, 
+    public Aluno(String nome, String idade, String altura, String peso, int sexo,
             String objetivo) {
         this.nome = nome;
         this.idade = idade;
@@ -27,6 +28,26 @@ public class Aluno {
         this.peso = peso;
         this.sexo = sexo;
         this.objetivo = objetivo;
+    }
+
+    public Aluno() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getInstrutorId() {
+        return instrutorId;
+    }
+
+    public void setInstrutorId(int instrutorId) {
+        this.instrutorId = instrutorId;
     }
 
     public String getNome() {
@@ -37,27 +58,27 @@ public class Aluno {
         this.nome = nome;
     }
 
-    public int getIdade() {
+    public String getIdade() {
         return idade;
     }
 
-    public void setIdade(int idade) {
+    public void setIdade(String idade) {
         this.idade = idade;
     }
 
-    public int getAltura() {
+    public String getAltura() {
         return altura;
     }
 
-    public void setAltura(int altura) {
+    public void setAltura(String altura) {
         this.altura = altura;
     }
 
-    public int getPeso() {
+    public String getPeso() {
         return peso;
     }
 
-    public void setPeso(int peso) {
+    public void setPeso(String peso) {
         this.peso = peso;
     }
 
@@ -79,9 +100,9 @@ public class Aluno {
 
     @Override
     public String toString() {
-        return "Aluno{" + "nome = " + nome + ", idade = " + idade + 
-                ", altura = " + altura + ", peso = " + peso + 
-                ", sexo = " + sexo + ", objetivo = " + objetivo + '}';
+        return "Aluno{" + "nome = " + nome + ", idade = " + idade
+                + ", altura = " + altura + ", peso = " + peso
+                + ", sexo = " + sexo + ", objetivo = " + objetivo + '}';
     }
-    
+
 }
