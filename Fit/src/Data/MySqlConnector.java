@@ -29,14 +29,14 @@ public class MySqlConnector {
         Connection connection = null; //Variável de conexão
         
         try {
-            String driverName = "com.mysql.jdbc.Driver"; //nome do driver de conexão
+            String driverName = "com.mysql.cj.jdbc.Driver"; //nome do driver de conexão
             Class.forName(driverName);
             
-            String serverName = "localhost"; //nome do servidor que possui o Banco de dados
-            String database = "mysql"; //nome do banco de dados
-            String url = "jdbc:mysql://" + serverName + "/" + database;
+            String serverName = "localhost:3306"; //nome do servidor que possui o Banco de dados
+            String database = "mydatabase"; //nome do banco de dados
+            String url = "jdbc:mysql://" + serverName + "/" + database + "?useTimezone=true&serverTimezone=UTC";
             String username = "root"; // nome de usuário para acesso ao banco de dados
-            String password = "123456"; // senha para acesso ao banco de dados
+            String password = ""; // senha para acesso ao banco de dados
             
             //Obter variável de conexão através dos dados criados anteriormente
             connection = DriverManager.getConnection(url, username, password);
@@ -53,7 +53,7 @@ public class MySqlConnector {
             System.out.println("O driver não foi encontrado");
             return null;
         } catch (SQLException sqlException) {
-            System.out.println("Não foi possível conectar ao banco de dados");
+            System.out.println(sqlException.getMessage());
             return null;
         }
     }
