@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Java;
+import View.LoginInstrutor;
 
 import Data.Exercicio;
 import Data.Instrutor;
@@ -22,10 +23,19 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Exercicio ex = new Exercicio("Supino", "3", "12");
-        ex.setId(1);
-        ExercicioDao dao = new ExercicioDao();
-        dao.deletarExercicio(ex);
+        LoginInstrutor login = new LoginInstrutor();
+        login.setVisible(true);
+        
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {     // Mudar aqui o Look And Feel
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(LoginInstrutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
 
 }
