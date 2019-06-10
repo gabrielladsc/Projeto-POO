@@ -5,6 +5,9 @@
  */
 package View;
 
+import Data.Instrutor;
+import Data.dao.InstrutorDao;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -125,29 +128,44 @@ public class EsqueceuSenha extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //variáveis para guardar conteúdo dos campos de texto
-        String texto;
-        String texto2;
-        String texto3;
+        String senha;
+        String confirmarSenha;
+        String nome;
 
         //guardando conteúdo dos campos de texto
-        texto = jPasswordField1.getText();
-        texto2 = jPasswordField2.getText();
-        texto3 = jTextField1.getText();
+        senha = jPasswordField1.getText();
+        confirmarSenha = jPasswordField2.getText();
+        nome = jTextField1.getText();
 
-        //verificando se nome não está vazio
-        if(!texto3.equals("")){
-            //verificando se as senhas são iguais
-            if(texto.equals(texto2)){
+        InstrutorDao instrutorDao = new InstrutorDao();
+        List<Instrutor> listaDeInstrutores = instrutorDao.recuperarInstrutor();
+        Instrutor instrutor = null;
+        
+        for (int i = 0; i < listaDeInstrutores.size(); i++) {
+            System.out.println(listaDeInstrutores.get(i).getNome());
+            if (nome.equals(listaDeInstrutores.get(i).getNome())) {
+                instrutor = listaDeInstrutores.get(i);
+                break;
+            }
+        }
+
+        if (instrutor != null) {
+            if (senha.equals(confirmarSenha)) {
+                instrutor.setSenha(senha);
+                instrutorDao.atualizarInstrutor(instrutor);
                 LoginInstrutor lo = new LoginInstrutor();
                 lo.setVisible(true);
                 this.dispose();
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Senhas diferem");
             }
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Campo invalido");
+        } else {
+            //verificando se nome não está vazio
+            if (!nome.equals("")) {
+                JOptionPane.showMessageDialog(null, "Instrutor não cadastrado");
+            } else {
+                JOptionPane.showMessageDialog(null, "Campo invalido");
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
