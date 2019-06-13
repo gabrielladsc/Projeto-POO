@@ -232,7 +232,16 @@ public class EditarEx extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        if (exercicioSelecionado != null) {
+            if (exercicioDao.deletarExercicio(exercicioSelecionado)) {
+                JOptionPane.showMessageDialog(null, "Exercício deletado com sucesso!");
+                initComboBox();
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao deletar exercício");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um exercício!");
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
