@@ -5,7 +5,11 @@
  */
 package View;
 
+import Data.Exercicio;
+import Data.dao.ExercicioDao;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -13,13 +17,26 @@ import javax.swing.JOptionPane;
  */
 public class EditarEx extends javax.swing.JFrame {
 
+    private final ExercicioDao exercicioDao = new ExercicioDao();
+    private List<Exercicio> listaDeExercicios;
+    private Exercicio exercicioSelecionado;
+
     /**
      * Creates new form EditarEx
      */
     public EditarEx() {
         setTitle("Editar Exercício");
         initComponents();
+        initComboBox();
         this.setLocationRelativeTo(null);
+    }
+
+    private void initComboBox() {
+        jComboBox1.removeAllItems();
+        listaDeExercicios = exercicioDao.recuperarExercicios();
+        listaDeExercicios.forEach((ex) -> {
+            jComboBox1.addItem(ex.getNome());
+        });
     }
 
     /**
@@ -49,7 +66,7 @@ public class EditarEx extends javax.swing.JFrame {
         jLabel1.setText("Exercício");
 
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nenhum" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -63,13 +80,17 @@ public class EditarEx extends javax.swing.JFrame {
         jLabel4.setText("Repetições:");
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextField1.setEnabled(false);
+        jTextField1.setFocusTraversalPolicyProvider(true);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel5.setText("Séries:");
 
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextField2.setEnabled(false);
 
         jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextField3.setEnabled(false);
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton3.setText("SALVAR");
@@ -155,27 +176,51 @@ public class EditarEx extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        /*quando um item for selecionado, recupera a posição do item selecionado
+        através do combo box e consequentemente o exercicio selecionado. Substrai-se
+        1 do index, pois a lista de exercicios já possui o item "Nenhum".
+        Além disso, caso o item selecionado seja um exercicio, habilita-se os campos de editagem. */
+        int itemSelecionado = jComboBox1.getSelectedIndex();
+        if (itemSelecionado >= 0) {
+            exercicioSelecionado = listaDeExercicios.get(itemSelecionado);
+
+            alterarTextFields(true, exercicioSelecionado.getNome(), jTextField1);
+            alterarTextFields(true, exercicioSelecionado.getRepeticoes(), jTextField2);
+            alterarTextFields(true, exercicioSelecionado.getSerie(), jTextField3);
+        } else {
+            alterarTextFields(false, "", jTextField1);
+            alterarTextFields(false, "", jTextField2);
+            alterarTextFields(false, "", jTextField3);
+        }
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         //variáveis para pegar conteúdo dos campos de texto
-        String texto;
-        String texto2;
-        String texto3;
-        
+        String novoNome;
+        String novoRepeticoes;
+        String novoSerie;
+
         //pegando conteúdo dos campos de texto
-        texto = jTextField1.getText();
-        texto2 = jTextField2.getText();
-        texto3 = jTextField3.getText();
-        
+        novoNome = jTextField1.getText();
+        novoRepeticoes = jTextField2.getText();
+        novoSerie = jTextField3.getText();
+
         //verificando se algum campo de texto está vazio
-        if(!texto.equals("") && !texto2.equals("")&& !texto3.equals("")){
-            Principal telaP = new Principal();
-            telaP.setVisible(true);
-            this.dispose();
-        }
-        else{
+        if (!novoNome.equals("") && !novoRepeticoes.equals("") && !novoSerie.equals("")) {
+            exercicioSelecionado.setNome(novoNome);
+            exercicioSelecionado.setRepeticoes(novoRepeticoes);
+            exercicioSelecionado.setSerie(novoSerie);
+            if (exercicioDao.atualizarExercicio(exercicioSelecionado)) {
+                JOptionPane.showMessageDialog(null, "Exercício atualizado com sucesso!");
+                initComboBox();
+                /*Principal telaP = new Principal();
+                telaP.setVisible(true);
+                this.dispose();*/
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao atualizar exercício");
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "Campo vazio");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -223,6 +268,12 @@ public class EditarEx extends javax.swing.JFrame {
                 new EditarEx().setVisible(true);
             }
         });
+    }
+
+    private void alterarTextFields(boolean habilitar, String texto,
+            JTextField jTextField) {
+        jTextField.setEnabled(habilitar);
+        jTextField.setText(texto);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
