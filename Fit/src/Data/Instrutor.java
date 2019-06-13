@@ -14,6 +14,7 @@ public class Instrutor {
     private int id;
     private String nome;
     private String senha;
+    private boolean logado = false;
 
     public Instrutor(String nome, String senha) {
         this.nome = nome;
@@ -47,6 +48,16 @@ public class Instrutor {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public boolean isLogado() {
+        return logado;
+    }
+
+    public void setLogado(boolean logado) {
+        this.logado = logado;
+    }
+    
+    
 
     @Override
     public String toString() {

@@ -6,6 +6,7 @@
 package Data.dao;
 
 import Data.Aluno;
+import Data.MySqlConnector;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,15 @@ import java.util.List;
  */
 public class AlunoDao extends Dao {
 
+    public AlunoDao() {
+        this.connection = MySqlConnector.getConnection();
+    }
+
     public boolean adicionarAluno(Aluno aluno) {
         try {
             this.statement = this.connection.createStatement();
-            String query = "INSERT INTO aluno (idInstrutor, nome, idade, altura, objetivo, peso, sexo) "
+            String query = "INSERT INTO aluno (idInstrutor, nome, "
+                    + "idade, altura, objetivo, peso, sexo) "
                     + "VALUES ('"
                     + aluno.getInstrutorId() + "','" + aluno.getNome() + "','"
                     + aluno.getIdade() + "','" + aluno.getAltura() + "','"
@@ -33,7 +39,7 @@ public class AlunoDao extends Dao {
         }
     }
 
-    public List<Aluno> recuperarExercicios() {
+    public List<Aluno> recuperarAlunos() {
         String query = "SELECT * FROM aluno";
         List<Aluno> listaDeAlunos = new ArrayList();
 
@@ -42,7 +48,7 @@ public class AlunoDao extends Dao {
             this.resultSet = this.statement.executeQuery(query);
             while (this.resultSet.next()) {
                 Aluno aluno = new Aluno();
-                aluno.setId(this.resultSet.getInt("exercicio_id"));
+                aluno.setId(this.resultSet.getInt("aluno_id"));
                 aluno.setInstrutorId(this.resultSet.getInt("idInstrutor"));
                 aluno.setNome(this.resultSet.getString("nome"));
                 aluno.setIdade(this.resultSet.getString("idade"));
@@ -59,7 +65,24 @@ public class AlunoDao extends Dao {
         return listaDeAlunos;
     }
 
-    public boolean atualizarExercicio(Aluno aluno) {
+    public int recuperarIdAlunoPeloNome(String nome) {
+        String query = "SELECT * FROM aluno WHERE nome = " + '"' + nome + '"' + " LIMIT 1";
+        int id = 0;
+
+        try {
+            this.statement = this.connection.createStatement();
+            this.resultSet = this.statement.executeQuery(query);
+            while (this.resultSet.next()) {
+                id = this.resultSet.getInt("aluno_id");
+            }
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+
+        return id;
+    }
+
+    public boolean atualizarAluno(Aluno aluno) {
         try {
             this.statement = this.connection.createStatement();
             String queryAtualizar = "UPDATE aluno SET "

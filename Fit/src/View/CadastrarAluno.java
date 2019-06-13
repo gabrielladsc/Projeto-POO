@@ -5,6 +5,14 @@
  */
 package View;
 
+import Data.Aluno;
+import Data.Exercicio;
+import Data.Instrutor;
+import Data.dao.AlunoDao;
+import Data.dao.AlunoExercicioDao;
+import Data.dao.ExercicioDao;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,15 +21,31 @@ import javax.swing.JOptionPane;
  */
 public class CadastrarAluno extends javax.swing.JFrame {
 
+    private Instrutor instrutorLogado;
+    private final ExercicioDao exercicioDao = new ExercicioDao();
+    private final AlunoDao alunoDao = new AlunoDao();
+    private final AlunoExercicioDao alunoExercicioDao = new AlunoExercicioDao();
+    private final List<Exercicio> listaDeExercicios;
+
     /**
      * Creates new form CadastrarAluno
      */
     public CadastrarAluno() {
+        listaDeExercicios = exercicioDao.recuperarExercicios();
         //título
         setTitle("Cadastro de Aluno");
         initComponents();
+        initList();
         //inicial tela no centro
         this.setLocationRelativeTo(null);
+    }
+
+    private void initList() {
+        Vector<String> itemList = new Vector<>();
+        listaDeExercicios.forEach((ex) -> {
+            itemList.add(ex.getNome());
+        });
+        jList1.setListData(itemList);
     }
 
     /**
@@ -228,11 +252,6 @@ public class CadastrarAluno extends javax.swing.JFrame {
         jLabel6.setText("Peso:");
 
         jList1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Supino", "Agachamento", "Leg Press", "Agachamento Sumo", "Rosca Martelo" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -329,6 +348,7 @@ public class CadastrarAluno extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //volta para tela principal
         Principal p = new Principal();
+        p.setInstrutor(instrutorLogado);
         p.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -343,29 +363,55 @@ public class CadastrarAluno extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //variáveis pra pegar o conteúdo dos campos de texto
-        String texto;
-        String texto2;
-        String texto3;
-        String texto4;
-        String texto5;
-        
+        int[] exerciciosSelecionados;
+        String objetivo;
+        String nomeAluno;
+        String idade;
+        String altura;
+        String peso;
+
         //pegando conteúdo dos campos de texto
-        texto = jTextField1.getText();
-        texto2 = jTextField2.getText();
-        texto3 = jTextField3.getText();
-        texto4 = jTextField4.getText();
-        texto5 = jTextField5.getText();
-        
+        objetivo = jTextField1.getText();
+        nomeAluno = jTextField2.getText();
+        idade = jTextField3.getText();
+        altura = jTextField4.getText();
+        peso = jTextField5.getText();
+
         //verificando se textos não estão vazios
-        if(!texto.equals("") && !texto2.equals("") && !texto3.equals("")
-                && !texto4.equals("") && !texto5.equals("")){
+        if (!objetivo.equals("") && !nomeAluno.equals("") && !idade.equals("")
+                && !altura.equals("") && !peso.equals("")) {
             //salva no mysql
-            //volta pra tela principal
-            Principal p = new Principal();
-            p.setVisible(true);
-            this.dispose();
-        }
-        else{
+            Aluno aluno = new Aluno(nomeAluno, idade, altura, peso,
+                    jComboBox1.getSelectedIndex(), objetivo);
+            aluno.setInstrutorId(instrutorLogado.getId());
+            exerciciosSelecionados = jList1.getSelectedIndices();
+
+            if (alunoDao.adicionarAluno(aluno)) {
+                int idAlunoCriado = alunoDao.recuperarIdAlunoPeloNome(aluno.getNome());
+                boolean insercaoOk = true;
+                for (int i = 0; i < exerciciosSelecionados.length; i++) {
+                    if (!alunoExercicioDao.adicionar(idAlunoCriado,
+                            listaDeExercicios.get(exerciciosSelecionados[i]).getId())) {
+                        insercaoOk = false;
+                        break;
+                    }
+                }
+
+                if (insercaoOk) {
+                    JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!");
+
+                    //volta pra tela principal
+                    Principal p = new Principal();
+                    p.setInstrutor(instrutorLogado);
+                    p.setVisible(true);
+                    this.dispose();
+                } else {
+                   JOptionPane.showMessageDialog(null, "Falha ao cadastrar aluno");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao cadastrar aluno");
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "Algum dos campos se encontra vazio");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -403,10 +449,15 @@ public class CadastrarAluno extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new CadastrarAluno().setVisible(true);
             }
         });
+    }
+
+    public void setInstrutor(Instrutor instrutor) {
+        this.instrutorLogado = instrutor;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

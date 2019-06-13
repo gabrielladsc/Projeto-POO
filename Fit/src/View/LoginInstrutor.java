@@ -147,6 +147,7 @@ public class LoginInstrutor extends javax.swing.JFrame {
             for (int i = 0; i < listaDeInstrutores.size(); i++) {
                 if (text.equals(listaDeInstrutores.get(i).getNome())
                         && senha.equals(listaDeInstrutores.get(i).getSenha())) {
+                    instrutorDao.alterarLogadoInstrutor(listaDeInstrutores.get(i), true);
                     Principal prin = new Principal();
                     prin.setVisible(true);
                     this.dispose();

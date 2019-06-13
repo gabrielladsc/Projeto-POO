@@ -5,6 +5,8 @@
  */
 package View;
 
+import Data.Instrutor;
+import Data.dao.InstrutorDao;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -14,11 +16,15 @@ import javax.swing.JMenu;
  * @author gabi0
  */
 public class Principal extends javax.swing.JFrame {
+    
+    private Instrutor instrutorLogado;
+    private final InstrutorDao instrutorDao = new InstrutorDao();
 
     /**
      * Creates new form Principal
      */
     public Principal() {
+        instrutorLogado = instrutorDao.recuperarInstrutorLogado();
         //título
         setTitle("Fit");
         initComponents();
@@ -139,6 +145,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         //vai pra tela de cadastro de aluno
         CadastrarAluno cad = new CadastrarAluno();
+        cad.setInstrutor(instrutorLogado);
         cad.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -152,6 +159,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //vai pra tela de login do instrutor
+        instrutorDao.alterarLogadoInstrutor(instrutorLogado, false);
         LoginInstrutor log = new LoginInstrutor();
         log.setVisible(true);
         this.dispose();
@@ -196,6 +204,10 @@ public class Principal extends javax.swing.JFrame {
                 new Principal().setVisible(true);
             }
         });
+    }
+    
+    public void setInstrutor(Instrutor instrutor) {
+        this.instrutorLogado = instrutor;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

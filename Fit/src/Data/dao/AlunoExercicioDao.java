@@ -5,6 +5,7 @@
  */
 package Data.dao;
 
+import Data.MySqlConnector;
 import java.sql.SQLException;
 
 /**
@@ -12,6 +13,10 @@ import java.sql.SQLException;
  * @author Guilherme
  */
 public class AlunoExercicioDao extends Dao {
+    
+    public AlunoExercicioDao() {
+        this.connection = MySqlConnector.getConnection();
+    }
     
     public boolean adicionar(int alunoId, int exercicioId) {
         try {

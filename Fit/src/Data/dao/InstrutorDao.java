@@ -24,8 +24,8 @@ public class InstrutorDao extends Dao {
     public boolean adicionarInstrutor(Instrutor instrutor) {
         try {
             this.statement = this.connection.createStatement();
-            String query = "INSERT INTO instrutor (nome, senha) VALUES ('" + 
-                    instrutor.getNome() + "','" + instrutor.getSenha() + "');";
+            String query = "INSERT INTO instrutor (nome, senha, logado) VALUES ('"
+                    + instrutor.getNome() + "','" + instrutor.getSenha() + "','false');";
             this.statement.executeUpdate(query);
             return true;
         } catch (SQLException sqlException) {
@@ -46,6 +46,7 @@ public class InstrutorDao extends Dao {
                 instrutor.setId(this.resultSet.getInt("instrutor_id"));
                 instrutor.setNome(this.resultSet.getString("nome"));
                 instrutor.setSenha(this.resultSet.getString("senha"));
+                instrutor.setLogado(this.resultSet.getBoolean("logado"));
                 listaDeInstrutores.add(instrutor);
             }
         } catch (SQLException sqlException) {
@@ -53,6 +54,27 @@ public class InstrutorDao extends Dao {
         }
 
         return listaDeInstrutores;
+    }
+    
+    public Instrutor recuperarInstrutorLogado() {
+        String query = "SELECT * FROM instrutor WHERE logado = true LIMIT 1";
+        Instrutor instrutorLogado = null;
+
+        try {
+            this.statement = this.connection.createStatement();
+            this.resultSet = this.statement.executeQuery(query);
+            while (this.resultSet.next()) {
+                instrutorLogado = new Instrutor();
+                instrutorLogado.setId(this.resultSet.getInt("instrutor_id"));
+                instrutorLogado.setNome(this.resultSet.getString("nome"));
+                instrutorLogado.setSenha(this.resultSet.getString("senha"));
+                instrutorLogado.setLogado(this.resultSet.getBoolean("logado"));
+            }
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+
+        return instrutorLogado;
     }
 
     public boolean atualizarInstrutor(Instrutor instrutor) {
@@ -79,6 +101,19 @@ public class InstrutorDao extends Dao {
             System.out.println(sqlException.getMessage());
             return false;
         }
+    }
 
+    public boolean alterarLogadoInstrutor(Instrutor instrutor, boolean logado) {
+        try {
+            this.statement = this.connection.createStatement();
+            String queryAtualizar = "UPDATE instrutor SET logado = " + logado
+                    + " WHERE instrutor_id = " + '"' + instrutor.getId() + '"';
+
+            this.statement.executeUpdate(queryAtualizar);
+            return true;
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+            return false;
+        }
     }
 }
