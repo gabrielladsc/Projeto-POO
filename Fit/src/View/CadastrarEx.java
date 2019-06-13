@@ -5,6 +5,8 @@
  */
 package View;
 
+import Data.Exercicio;
+import Data.dao.ExercicioDao;
 import javax.swing.JOptionPane;
 
 /**
@@ -133,23 +135,30 @@ public class CadastrarEx extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //variáveis para pegar conteúdo dos campos de texto
-        String texto;
-        String texto2;
-        String texto3;
-        
+        String nomeExercicio;
+        String repeticoes;
+        String series;
+
         //pegando conteúdo dos campos de texto
-        texto = jTextField1.getText();
-        texto2 = jTextField2.getText();
-        texto3 = jTextField3.getText();
-        
+        nomeExercicio = jTextField1.getText();
+        repeticoes = jTextField2.getText();
+        series = jTextField3.getText();
+
         //verificando se algum campo de texto está vazio
-        if(!texto.equals("") && !texto2.equals("")&& !texto3.equals("")){
-            Principal telaP = new Principal();
-            telaP.setVisible(true);
-            this.dispose();
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Campo vazio");
+        if (!nomeExercicio.equals("") && !repeticoes.equals("") && !series.equals("")) {
+            ExercicioDao exercicioDao = new ExercicioDao();
+            Exercicio exercicio = new Exercicio(nomeExercicio, series, repeticoes);
+            if (exercicioDao.adicionarExercicio(exercicio)) {
+                JOptionPane.showMessageDialog(null, "Exercício criado com sucesso!");
+                Principal telaP = new Principal();
+                telaP.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao criar exercício");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
