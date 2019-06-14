@@ -25,7 +25,7 @@ public class InstrutorDao extends Dao {
         try {
             this.statement = this.connection.createStatement();
             String query = "INSERT INTO instrutor (nome, senha, logado) VALUES ('"
-                    + instrutor.getNome() + "','" + instrutor.getSenha() + "','false');";
+                    + instrutor.getNome() + "','" + instrutor.getSenha() + "'," + false + ");";
             this.statement.executeUpdate(query);
             return true;
         } catch (SQLException sqlException) {

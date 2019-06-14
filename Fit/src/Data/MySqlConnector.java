@@ -32,11 +32,11 @@ public class MySqlConnector {
             String driverName = "com.mysql.cj.jdbc.Driver"; //nome do driver de conexão
             Class.forName(driverName);
             
-            String serverName = "localhost:3306"; //nome do servidor que possui o Banco de dados
-            String database = "mydatabase"; //nome do banco de dados
+            String serverName = "db4free.net:3306"; //nome do servidor que possui o Banco de dados
+            String database = "fitdatabase"; //nome do banco de dados
             String url = "jdbc:mysql://" + serverName + "/" + database + "?useTimezone=true&serverTimezone=UTC";
-            String username = "root"; // nome de usuário para acesso ao banco de dados
-            String password = ""; // senha para acesso ao banco de dados
+            String username = "projetopoo"; // nome de usuário para acesso ao banco de dados
+            String password = "12345678"; // senha para acesso ao banco de dados
             
             //Obter variável de conexão através dos dados criados anteriormente
             connection = DriverManager.getConnection(url, username, password);
