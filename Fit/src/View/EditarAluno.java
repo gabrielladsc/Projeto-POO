@@ -374,27 +374,40 @@ public class EditarAluno extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         //variáveis para pegar conteúdo dos campos de texto
-        String texto;
-        String texto2;
-        String texto3;
-        String texto4;
-        String texto5;
+        String objetivo;
+        String novoNome;
+        String novaIdade;
+        String novaAltura;
+        String novoPeso;
 
         //pegando conteúdo dos campos de texto
-        texto = jTextField1.getText();
-        texto2 = jTextField2.getText();
-        texto3 = jTextField3.getText();
-        texto4 = jTextField4.getText();
-        texto5 = jTextField5.getText();
+        objetivo = jTextField1.getText();
+        novoNome = jTextField2.getText();
+        novaIdade = jTextField3.getText();
+        novaAltura = jTextField4.getText();
+        novoPeso = jTextField5.getText();
 
         //verificando se textos não estão vazios
-        if (!texto.equals("") && !texto2.equals("") && !texto3.equals("")
-                && !texto4.equals("") && !texto5.equals("")) {
+        if (!objetivo.equals("") && !novoNome.equals("") && !novaIdade.equals("")
+                && !novaAltura.equals("") && !novoPeso.equals("")) {
             //salva no mysql
-            //volta pra tela principal
+            alunoSelecionado.setNome(novoNome);
+            alunoSelecionado.setIdade(novaIdade);
+            alunoSelecionado.setAltura(novaAltura);
+            alunoSelecionado.setObjetivo(objetivo);
+            alunoSelecionado.setPeso(novoPeso);
+            alunoSelecionado.setSexo(jComboBox2.getSelectedIndex());
+            if (alunoDao.atualizarAluno(alunoSelecionado)) {
+                JOptionPane.showMessageDialog(null, "Aluno atualizado com sucesso!");
+                initComboBox();
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao atualizar aluno");
+            }
+            
+            /*volta pra tela principal
             Principal p = new Principal();
             p.setVisible(true);
-            this.dispose();
+            this.dispose();*/
         } else {
             JOptionPane.showMessageDialog(null, "Algum dos campos se encontra vazio");
         }
