@@ -145,7 +145,6 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         //vai pra tela de cadastro de aluno
         CadastrarAluno cad = new CadastrarAluno();
-        cad.setInstrutor(instrutorLogado);
         cad.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
@@ -204,10 +203,6 @@ public class Principal extends javax.swing.JFrame {
                 new Principal().setVisible(true);
             }
         });
-    }
-    
-    public void setInstrutor(Instrutor instrutor) {
-        this.instrutorLogado = instrutor;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

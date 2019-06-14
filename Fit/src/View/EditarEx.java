@@ -10,6 +10,7 @@ import Data.dao.ExercicioDao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import util.ComponentController;
 
 /**
  *
@@ -184,13 +185,16 @@ public class EditarEx extends javax.swing.JFrame {
         if (itemSelecionado >= 0) {
             exercicioSelecionado = listaDeExercicios.get(itemSelecionado);
 
-            alterarTextFields(true, exercicioSelecionado.getNome(), jTextField1);
-            alterarTextFields(true, exercicioSelecionado.getRepeticoes(), jTextField2);
-            alterarTextFields(true, exercicioSelecionado.getSerie(), jTextField3);
+            ComponentController.alterarJText(true,
+                    exercicioSelecionado.getNome(), jTextField1);
+            ComponentController.alterarJText(true,
+                    exercicioSelecionado.getRepeticoes(), jTextField2);
+            ComponentController.alterarJText(true,
+                    exercicioSelecionado.getSerie(), jTextField3);
         } else {
-            alterarTextFields(false, "", jTextField1);
-            alterarTextFields(false, "", jTextField2);
-            alterarTextFields(false, "", jTextField3);
+            ComponentController.alterarJText(false, "", jTextField1);
+            ComponentController.alterarJText(false, "", jTextField2);
+            ComponentController.alterarJText(false, "", jTextField3);
         }
 
     }//GEN-LAST:event_jComboBox1ActionPerformed
@@ -277,12 +281,6 @@ public class EditarEx extends javax.swing.JFrame {
                 new EditarEx().setVisible(true);
             }
         });
-    }
-
-    private void alterarTextFields(boolean habilitar, String texto,
-            JTextField jTextField) {
-        jTextField.setEnabled(habilitar);
-        jTextField.setText(texto);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

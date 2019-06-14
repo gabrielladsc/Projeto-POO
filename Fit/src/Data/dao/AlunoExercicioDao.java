@@ -5,8 +5,11 @@
  */
 package Data.dao;
 
+import Data.AlunoExercicio;
 import Data.MySqlConnector;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -31,4 +34,24 @@ public class AlunoExercicioDao extends Dao {
             return false;
         }
     }    
+    
+    public List<AlunoExercicio> recuperar(int alunoId) {
+        String queryRecuperar = "SELECT * FROM alunoxexercicio WHERE alunoId = " + '"' + alunoId + '"';
+        List<AlunoExercicio> listaDeExerciciosAluno = new ArrayList();
+         try {
+            
+            this.statement = this.connection.createStatement();
+            this.resultSet = this.statement.executeQuery(queryRecuperar);
+            while (this.resultSet.next()) {
+                AlunoExercicio alunoExercicio = new AlunoExercicio();
+                alunoExercicio.setAlunoId(this.resultSet.getInt("alunoId"));
+                alunoExercicio.setExercicioId(this.resultSet.getInt("exercicioId"));
+                listaDeExerciciosAluno.add(alunoExercicio);
+            }
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+         
+         return listaDeExerciciosAluno;
+    }
 }

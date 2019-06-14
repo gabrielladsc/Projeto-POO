@@ -39,8 +39,9 @@ public class AlunoDao extends Dao {
         }
     }
 
-    public List<Aluno> recuperarAlunos() {
-        String query = "SELECT * FROM aluno";
+    public List<Aluno> recuperarAlunos(int instrutorId) {
+        String query = "SELECT * FROM aluno WHERE idInstrutor = " + '"' 
+                + instrutorId + '"';
         List<Aluno> listaDeAlunos = new ArrayList();
 
         try {

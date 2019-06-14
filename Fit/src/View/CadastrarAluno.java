@@ -11,6 +11,7 @@ import Data.Instrutor;
 import Data.dao.AlunoDao;
 import Data.dao.AlunoExercicioDao;
 import Data.dao.ExercicioDao;
+import Data.dao.InstrutorDao;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
@@ -31,6 +32,8 @@ public class CadastrarAluno extends javax.swing.JFrame {
      * Creates new form CadastrarAluno
      */
     public CadastrarAluno() {
+        InstrutorDao instrutorDao = new InstrutorDao();
+        instrutorLogado = instrutorDao.recuperarInstrutorLogado();
         listaDeExercicios = exercicioDao.recuperarExercicios();
         //título
         setTitle("Cadastro de Aluno");
@@ -348,7 +351,6 @@ public class CadastrarAluno extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //volta para tela principal
         Principal p = new Principal();
-        p.setInstrutor(instrutorLogado);
         p.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -402,7 +404,6 @@ public class CadastrarAluno extends javax.swing.JFrame {
 
                     //volta pra tela principal
                     Principal p = new Principal();
-                    p.setInstrutor(instrutorLogado);
                     p.setVisible(true);
                     this.dispose();
                 } else {
@@ -455,10 +456,7 @@ public class CadastrarAluno extends javax.swing.JFrame {
             }
         });
     }
-
-    public void setInstrutor(Instrutor instrutor) {
-        this.instrutorLogado = instrutor;
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

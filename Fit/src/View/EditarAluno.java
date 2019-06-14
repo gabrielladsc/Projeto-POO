@@ -5,7 +5,19 @@
  */
 package View;
 
+import Data.Aluno;
+import Data.AlunoExercicio;
+import Data.Exercicio;
+import Data.Instrutor;
+import Data.dao.AlunoDao;
+import Data.dao.AlunoExercicioDao;
+import Data.dao.ExercicioDao;
+import Data.dao.InstrutorDao;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import util.ComponentController;
 
 /**
  *
@@ -13,13 +25,61 @@ import javax.swing.JOptionPane;
  */
 public class EditarAluno extends javax.swing.JFrame {
 
+    private Instrutor instrutorLogado;
+    private final ExercicioDao exercicioDao = new ExercicioDao();
+    private List<Exercicio> listaDeExercicios;
+    private final AlunoDao alunoDao = new AlunoDao();
+    private List<Aluno> listaDeAlunos;
+    private Aluno alunoSelecionado;
+    private List<Exercicio> exerciciosAlunoSelecionado = new ArrayList();
+    private final AlunoExercicioDao alunoExDao = new AlunoExercicioDao();
+
     /**
      * Creates new form EditarAluno
      */
     public EditarAluno() {
+        InstrutorDao instrutoDao = new InstrutorDao();
+        instrutorLogado = instrutoDao.recuperarInstrutorLogado();
         this.setTitle("Editar Aluno");
         initComponents();
+        initComboBox();
         this.setLocationRelativeTo(null);
+    }
+
+    private void initComboBox() {
+        jComboBox1.removeAllItems();
+        listaDeAlunos = alunoDao.recuperarAlunos(instrutorLogado.getId());
+        listaDeAlunos.forEach((aluno) -> {
+            jComboBox1.addItem(aluno.getNome());
+        });
+    }
+
+    private void montarListaDeExercicios() {
+        exerciciosAlunoSelecionado.clear();
+        listaDeExercicios = exercicioDao.recuperarExercicios();
+        List<AlunoExercicio> listaDeExerciciosAluno = alunoExDao.recuperar(alunoSelecionado.getId());
+
+        listaDeExerciciosAluno.forEach((item) -> {
+            for (int i = 0; i < listaDeExercicios.size(); i++) {
+                if (item.getExercicioId() == listaDeExercicios.get(i).getId()) {
+                    exerciciosAlunoSelecionado.add(listaDeExercicios.get(i));
+                    listaDeExercicios.remove(listaDeExercicios.get(i));
+                }
+            }
+        });
+
+        Vector<String> exerciciosAtuais = new Vector();
+        exerciciosAlunoSelecionado.forEach((ex) -> {
+            exerciciosAtuais.add(ex.getNome());
+        });
+        jList2.setListData(exerciciosAtuais);
+
+        Vector<String> exerciciosNovos = new Vector();
+        listaDeExercicios.forEach((ex) -> {
+            exerciciosNovos.add(ex.getNome());
+        });
+        jList1.setListData(exerciciosNovos);
+
     }
 
     /**
@@ -63,7 +123,6 @@ public class EditarAluno extends javax.swing.JFrame {
         jLabel1.setText("Aluno:");
 
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -78,20 +137,30 @@ public class EditarAluno extends javax.swing.JFrame {
 
         jComboBox2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Feminino", "Masculino" }));
+        jComboBox2.setEnabled(false);
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
             }
         });
 
+        jTextField1.setEnabled(false);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
 
+        jTextField2.setEnabled(false);
+
+        jTextField3.setEnabled(false);
+
+        jTextField4.setEnabled(false);
+
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("Peso:");
+
+        jTextField5.setEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Nome:");
@@ -103,11 +172,7 @@ public class EditarAluno extends javax.swing.JFrame {
         jLabel7.setText("Altura:");
 
         jList1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Supino", "Agachamento", "Leg Press", "Agachamento Sumo", "Rosca Martelo" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        jList1.setEnabled(false);
         jScrollPane1.setViewportView(jList1);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -117,16 +182,14 @@ public class EditarAluno extends javax.swing.JFrame {
         jLabel14.setText("Adicionar Exercícios: ");
 
         jList2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Supino", "Agachamento", "Leg Press", "Agachamento Sumo", "Rosca Martelo" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        jList2.setEnabled(false);
         jScrollPane2.setViewportView(jList2);
 
         jButton1.setText(">>");
+        jButton1.setEnabled(false);
 
         jButton2.setText("<<");
+        jButton2.setEnabled(false);
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton3.setText("SALVAR");
@@ -241,15 +304,16 @@ public class EditarAluno extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(104, 104, 104)
@@ -273,7 +337,31 @@ public class EditarAluno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        int itemSelecionado = jComboBox1.getSelectedIndex();
+
+        if (itemSelecionado >= 0) {
+            alunoSelecionado = listaDeAlunos.get(itemSelecionado);
+
+            ComponentController.alterarJText(true, alunoSelecionado.getNome(), jTextField2);
+            ComponentController.alterarJText(true, alunoSelecionado.getIdade(), jTextField3);
+            ComponentController.alterarJText(true, alunoSelecionado.getAltura(), jTextField4);
+            ComponentController.alterarJText(true, alunoSelecionado.getObjetivo(), jTextField1);
+            ComponentController.alterarJText(true, alunoSelecionado.getPeso(), jTextField5);
+            jComboBox2.setSelectedIndex(alunoSelecionado.getSexo());
+            ComponentController.alterarComponente(true, jComboBox2);
+            ComponentController.alterarComponente(true, jList1);
+            ComponentController.alterarComponente(true, jList2);
+            ComponentController.alterarComponente(true, jButton1);
+            ComponentController.alterarComponente(true, jButton1);
+            montarListaDeExercicios();
+        } else {
+            ComponentController.alterarJText(false, "", jTextField1);
+            ComponentController.alterarJText(false, "", jTextField2);
+            ComponentController.alterarJText(false, "", jTextField3);
+            ComponentController.alterarComponente(false, jComboBox2);
+            ComponentController.alterarComponente(false, jList1);
+            ComponentController.alterarComponente(false, jList2);
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
@@ -291,24 +379,23 @@ public class EditarAluno extends javax.swing.JFrame {
         String texto3;
         String texto4;
         String texto5;
-        
+
         //pegando conteúdo dos campos de texto
         texto = jTextField1.getText();
         texto2 = jTextField2.getText();
         texto3 = jTextField3.getText();
         texto4 = jTextField4.getText();
         texto5 = jTextField5.getText();
-        
+
         //verificando se textos não estão vazios
-        if(!texto.equals("") && !texto2.equals("") && !texto3.equals("")
-                && !texto4.equals("") && !texto5.equals("")){
+        if (!texto.equals("") && !texto2.equals("") && !texto3.equals("")
+                && !texto4.equals("") && !texto5.equals("")) {
             //salva no mysql
             //volta pra tela principal
             Principal p = new Principal();
             p.setVisible(true);
             this.dispose();
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Algum dos campos se encontra vazio");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
