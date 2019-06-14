@@ -187,9 +187,19 @@ public class EditarAluno extends javax.swing.JFrame {
 
         jButton1.setText(">>");
         jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("<<");
         jButton2.setEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton3.setText("SALVAR");
@@ -352,7 +362,7 @@ public class EditarAluno extends javax.swing.JFrame {
             ComponentController.alterarComponente(true, jList1);
             ComponentController.alterarComponente(true, jList2);
             ComponentController.alterarComponente(true, jButton1);
-            ComponentController.alterarComponente(true, jButton1);
+            ComponentController.alterarComponente(true, jButton2);
             montarListaDeExercicios();
         } else {
             ComponentController.alterarJText(false, "", jTextField1);
@@ -361,6 +371,8 @@ public class EditarAluno extends javax.swing.JFrame {
             ComponentController.alterarComponente(false, jComboBox2);
             ComponentController.alterarComponente(false, jList1);
             ComponentController.alterarComponente(false, jList2);
+            ComponentController.alterarComponente(false, jButton1);
+            ComponentController.alterarComponente(false, jButton2);
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
@@ -422,6 +434,26 @@ public class EditarAluno extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int[] exerciciosDoAlunoSelecionados = jList2.getSelectedIndices();
+        
+        for (int i = 0; i < exerciciosDoAlunoSelecionados.length; i++) {
+            Exercicio exercicioSelecionado = exerciciosAlunoSelecionado.get(exerciciosDoAlunoSelecionados[i]);
+            alunoExDao.remover(alunoSelecionado.getId(), exercicioSelecionado.getId());
+        }
+        montarListaDeExercicios();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int[] novosExercicios = jList1.getSelectedIndices();
+        
+        for (int i = 0; i < novosExercicios.length; i++) {
+            Exercicio exercicioSelecionado = listaDeExercicios.get(novosExercicios[i]);
+            alunoExDao.adicionar(alunoSelecionado.getId(), exercicioSelecionado.getId());
+        }
+        montarListaDeExercicios();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

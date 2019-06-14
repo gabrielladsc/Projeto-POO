@@ -16,30 +16,30 @@ import java.util.List;
  * @author Guilherme
  */
 public class AlunoExercicioDao extends Dao {
-    
+
     public AlunoExercicioDao() {
         this.connection = MySqlConnector.getConnection();
     }
-    
+
     public boolean adicionar(int alunoId, int exercicioId) {
         try {
             this.statement = this.connection.createStatement();
             String query = "INSERT INTO alunoxexercicio (alunoId, exercicioId) "
                     + "VALUES ('"
-                    + alunoId + "','" + exercicioId  + "');";
+                    + alunoId + "','" + exercicioId + "');";
             this.statement.executeUpdate(query);
             return true;
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
             return false;
         }
-    }    
-    
+    }
+
     public List<AlunoExercicio> recuperar(int alunoId) {
         String queryRecuperar = "SELECT * FROM alunoxexercicio WHERE alunoId = " + '"' + alunoId + '"';
         List<AlunoExercicio> listaDeExerciciosAluno = new ArrayList();
-         try {
-            
+        try {
+
             this.statement = this.connection.createStatement();
             this.resultSet = this.statement.executeQuery(queryRecuperar);
             while (this.resultSet.next()) {
@@ -51,7 +51,19 @@ public class AlunoExercicioDao extends Dao {
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
-         
-         return listaDeExerciciosAluno;
+
+        return listaDeExerciciosAluno;
+    }
+
+    public boolean remover(int alunoId, int exercicioId) {
+        try {
+            this.statement = this.connection.createStatement();
+            String query = "DELETE FROM alunoxexercicio WHERE alunoId = " + alunoId + " and exercicioId = " +  exercicioId;
+            this.statement.executeUpdate(query);
+            return true;
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+            return false;
+        }
     }
 }
