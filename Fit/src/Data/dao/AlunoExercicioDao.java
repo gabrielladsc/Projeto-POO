@@ -66,4 +66,16 @@ public class AlunoExercicioDao extends Dao {
             return false;
         }
     }
+    
+    public boolean removerAluno(int alunoId) {
+        try {
+            this.statement = this.connection.createStatement();
+            String query = "DELETE FROM alunoxexercicio WHERE alunoId = " + alunoId;
+            this.statement.executeUpdate(query);
+            return true;
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+            return false;
+        }
+    }
 }
