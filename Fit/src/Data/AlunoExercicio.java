@@ -7,16 +7,24 @@ package Data;
 
 /**
  *
- * @author guilhermeyabu
+ * @author gabi0
+ * 
+ * Classe que relaciona um aluno com um exercicio.
+ * É utilizada para representar quais exercicios pertecem a um
+ * determinado aluno.
  */
 public class AlunoExercicio {
+    //identificação do aluno
     private int alunoId;
+    
+    //identificação do exercicio pertencente ao aluno
     private int exercicioId;
 
     public AlunoExercicio() {
         
     }
 
+    //Getters e Setters
     public int getAlunoId() {
         return alunoId;
     }
@@ -31,7 +39,5 @@ public class AlunoExercicio {
 
     public void setExercicioId(int exercicioId) {
         this.exercicioId = exercicioId;
-    }
-    
-    
+    }    
 }

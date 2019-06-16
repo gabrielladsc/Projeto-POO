@@ -8,11 +8,17 @@ package Data;
 /**
  *
  * @author gabi0
+ * 
+ * Classe para guardar os dados dos alunos.
  */
 public class Aluno {
-
+    //identificação do aluno na banco de dados
     private int id;
+    
+    //identificação do instrutor responsável pelo aluno
     private int instrutorId;
+    
+    // atributos específicos de cada aluno
     private String nome;
     private String idade;
     private String altura;
@@ -34,6 +40,7 @@ public class Aluno {
 
     }
 
+    //Getters e setters
     public int getId() {
         return id;
     }
@@ -97,12 +104,4 @@ public class Aluno {
     public void setObjetivo(String objetivo) {
         this.objetivo = objetivo;
     }
-
-    @Override
-    public String toString() {
-        return "Aluno{" + "nome = " + nome + ", idade = " + idade
-                + ", altura = " + altura + ", peso = " + peso
-                + ", sexo = " + sexo + ", objetivo = " + objetivo + '}';
-    }
-
 }

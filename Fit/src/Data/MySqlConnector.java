@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * mesma para realizar transações com o banco de dados.
  */
 public class MySqlConnector {
-    
+    //Status atual da conexão com o banco de dados
     public static String status = "Nao conectou...";
     
     public MySqlConnector(){
@@ -63,6 +63,7 @@ public class MySqlConnector {
         return status;
     }
     
+    //Fecha conexão com o banco de dados
     public static boolean closeConnection(){
         try {
            MySqlConnector.getConnection().close();
@@ -72,6 +73,7 @@ public class MySqlConnector {
         }
     }
     
+    //Fecha a conexão com o banco e obtém uma nova instância
     public static Connection restartConnection(){
         closeConnection();
         return MySqlConnector.getConnection();

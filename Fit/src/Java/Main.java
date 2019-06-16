@@ -14,14 +14,18 @@ public class Main {
 
     /**
      * @param args the command line arguments
+     * 
+     * 
      */
     public static void main(String[] args) {
+        //Instancia e deixa visível a tela que será a inicialização da aplicação
         LoginInstrutor login = new LoginInstrutor();
         login.setVisible(true);
         
+        //Muda o tema da aplicação
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {     // Mudar aqui o Look And Feel
+                if ("Nimbus".equals(info.getName())) {// Muda o Look And Feel da aplicacação
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

@@ -7,11 +7,15 @@ package Data;
 
 /**
  *
- * @author Guilherme
+ * @author gabi0
+ * 
+ * Classe para guardar os dados do instrutor.
  */
 public class Instrutor {
-
+    //Identificação do instrutor no banco de dados
     private int id;
+    
+    //Atributos específicos do instrutor
     private String nome;
     private String senha;
     private boolean logado = false;
@@ -25,6 +29,7 @@ public class Instrutor {
 
     }
 
+    //Getters e setters
     public int getId() {
         return id;
     }
@@ -55,12 +60,5 @@ public class Instrutor {
 
     public void setLogado(boolean logado) {
         this.logado = logado;
-    }
-    
-    
-
-    @Override
-    public String toString() {
-        return "Instrutor{" + "nome = " + nome + ", senha = " + senha + '}';
     }
 }

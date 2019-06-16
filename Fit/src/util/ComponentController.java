@@ -10,16 +10,19 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author guilhermeyabu
+ * @author gabi0
+ * 
+ * Classe que controla os componentes da view.
  */
 public class ComponentController {
-    
+    //Controla JText, habilitando/desabilitando e definindo seu texto
     public static void alterarJText(boolean habilitar, String texto,
             JTextField jTextField) {
         jTextField.setEnabled(habilitar);
         jTextField.setText(texto);
     }
     
+    //Habilita/desabilita qualquer JComponent
     public static void alterarComponente(boolean habilitar, 
             JComponent componente) {
         componente.setEnabled(habilitar);

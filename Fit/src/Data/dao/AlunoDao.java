@@ -13,16 +13,22 @@ import java.util.List;
 
 /**
  *
- * @author Guilherme
+ * @author gabi0
+ * 
+ * Classe que gerencia os dados do aluno entre
+ * a aplicação e o banco de dados.
  */
 public class AlunoDao extends Dao {
-
+    //Construtor que inicializa a conexão com o banco de dados
     public AlunoDao() {
         this.connection = MySqlConnector.getConnection();
     }
 
+    //Através de uma instância do aluno cria um novo aluno no banco
     public boolean adicionarAluno(Aluno aluno) {
         try {
+            //Insere um novo aluno no banco de dados através da Query SQL
+            //Caso insira com sucesso, retorna true, senão, false
             this.statement = this.connection.createStatement();
             String query = "INSERT INTO aluno (idInstrutor, nome, "
                     + "idade, altura, objetivo, peso, sexo) "
@@ -39,12 +45,16 @@ public class AlunoDao extends Dao {
         }
     }
 
+    //Recupera todos os alunos do banco de dados e retorna em uma lista
+    //contendo todos os alunos de acordo com o instrutor logado
     public List<Aluno> recuperarAlunos(int instrutorId) {
         String query = "SELECT * FROM aluno WHERE idInstrutor = " + '"' 
                 + instrutorId + '"';
         List<Aluno> listaDeAlunos = new ArrayList();
 
         try {
+            //Para cada aluno no banco, cria uma nova instância desse
+            //aluno na aplicação
             this.statement = this.connection.createStatement();
             this.resultSet = this.statement.executeQuery(query);
             while (this.resultSet.next()) {
@@ -66,6 +76,7 @@ public class AlunoDao extends Dao {
         return listaDeAlunos;
     }
 
+    //Recupera o id do aluno de acordo com seu nome
     public int recuperarIdAlunoPeloNome(String nome) {
         String query = "SELECT * FROM aluno WHERE nome = " + '"' + nome + '"' + " LIMIT 1";
         int id = 0;
@@ -83,6 +94,8 @@ public class AlunoDao extends Dao {
         return id;
     }
 
+    //Atualiza aluno. Caso atualize com sucesso,
+    //retorna true, senão, false
     public boolean atualizarAluno(Aluno aluno) {
         try {
             this.statement = this.connection.createStatement();
@@ -103,6 +116,7 @@ public class AlunoDao extends Dao {
         }
     }
 
+    //Deleta o aluno. Caso delete com sucesso retorna true, senão, false
     public boolean deletarAluno(Aluno aluno) {
         try {
             this.statement = this.connection.createStatement();

@@ -14,15 +14,21 @@ import java.util.List;
 /**
  *
  * @author gabi0
+ * 
+ * Classe que gerencia os dados do exercício entre
+ * a aplicação e o banco de dados.
  */
 public class ExercicioDao extends Dao {
-
+    //Construtor que inicializa a conexão com o banco de dados
     public ExercicioDao() {
         this.connection = MySqlConnector.getConnection();
     }
 
+    //Através de uma instância do exercício cria um novo exercício no banco
     public boolean adicionarExercicio(Exercicio exercicio) {
         try {
+             //Insere um novo exercício no banco de dados através da Query SQL
+            //Caso insira com sucesso, retorna true, senão, false
             this.statement = this.connection.createStatement();
             String query = "INSERT INTO exercicio (nome, serie, repeticoes) "
                     + "VALUES ('"
@@ -36,11 +42,15 @@ public class ExercicioDao extends Dao {
         }
     }
 
+    //Recupera todos os exercícios do banco de dados e retorna em uma lista
+    //contendo todos os exercícios
     public List<Exercicio> recuperarExercicios() {
         String query = "SELECT * FROM exercicio";
         List<Exercicio> listaDeExercicios = new ArrayList();
 
         try {
+            //Para cada exercício no banco, cria uma nova instância desse
+            //exercício na aplicação
             this.statement = this.connection.createStatement();
             this.resultSet = this.statement.executeQuery(query);
             while (this.resultSet.next()) {
@@ -58,6 +68,8 @@ public class ExercicioDao extends Dao {
         return listaDeExercicios;
     }
 
+    //Atualiza exercício. Caso atualize com sucesso,
+    //retorna true, senão, false
     public boolean atualizarExercicio(Exercicio exercicio) {
         try {
             this.statement = this.connection.createStatement();
@@ -76,6 +88,7 @@ public class ExercicioDao extends Dao {
         }
     }
 
+     //Deleta exercício. Caso delete com sucesso retorna true, senão, false
     public boolean deletarExercicio(Exercicio exercicio) {
         try {
             this.statement = this.connection.createStatement();

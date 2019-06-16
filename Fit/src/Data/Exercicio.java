@@ -7,11 +7,15 @@ package Data;
 
 /**
  *
- * @author Guilherme
+ * @author gabi0
+ * 
+ * Classe para guardar os dados dos exercicios.
  */
 public class Exercicio {
-    
+    //Identificaçãoo do exercício no banco de dados
     private int id;
+    
+    //Atributos específicos do exercício
     private String nome;
     private String serie;
     private String repeticoes;
@@ -26,6 +30,7 @@ public class Exercicio {
         
     }
 
+    //Getters e setters
     public int getId() {
         return id;
     }
@@ -57,10 +62,4 @@ public class Exercicio {
     public void setRepeticoes(String repeticoes) {
         this.repeticoes = repeticoes;
     }
-    
-    @Override
-    public String toString() {
-        return "Exercicio {" + "nome = " + nome + ", series = " + serie + 
-                ", repeticoes = " + repeticoes + '}';
-    }   
 }
