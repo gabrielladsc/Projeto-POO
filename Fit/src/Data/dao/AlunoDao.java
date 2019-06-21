@@ -14,11 +14,11 @@ import java.util.List;
 /**
  *
  * @author gabi0
- * 
- * Classe que gerencia os dados do aluno entre
- * a aplicação e o banco de dados.
+ *
+ * Classe que gerencia os dados do aluno entre a aplicação e o banco de dados.
  */
 public class AlunoDao extends Dao {
+
     //Construtor que inicializa a conexão com o banco de dados
     public AlunoDao() {
         this.connection = MySqlConnector.getConnection();
@@ -48,7 +48,7 @@ public class AlunoDao extends Dao {
     //Recupera todos os alunos do banco de dados e retorna em uma lista
     //contendo todos os alunos de acordo com o instrutor logado
     public List<Aluno> recuperarAlunos(int instrutorId) {
-        String query = "SELECT * FROM aluno WHERE idInstrutor = " + '"' 
+        String query = "SELECT * FROM aluno WHERE idInstrutor = " + '"'
                 + instrutorId + '"';
         List<Aluno> listaDeAlunos = new ArrayList();
 

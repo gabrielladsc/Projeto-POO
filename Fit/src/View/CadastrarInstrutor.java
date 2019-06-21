@@ -12,14 +12,19 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author gabi0
+ *
+ * Classe que exibe a tela de Cadastro de Instrutor. Auxilia no cadastro do
+ * mesmo e gerenciamento dos dados.
  */
 public class CadastrarInstrutor extends javax.swing.JFrame {
 
     /**
-     * Creates new form CadastrarInstrutor
+     * Construtor que inicializa a tela Cadastrar Instrutor.
      */
     public CadastrarInstrutor() {
+        //título da tela Cadastrar Instrutor
         setTitle("Cadastro de Instrutor");
+        //Inicializa os componentes da tela
         initComponents();
         //inicia a tela no centro
         this.setLocationRelativeTo(null);
@@ -125,7 +130,7 @@ public class CadastrarInstrutor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //variáveis para guardar conteúdo dos campos de texto
+        //variáveis para guardar conteúdo dos campos referentes ao instrutor
         String senha;
         String confirmarSenha;
         String nome;
@@ -135,12 +140,19 @@ public class CadastrarInstrutor extends javax.swing.JFrame {
         confirmarSenha = jPasswordField2.getText();
         nome = jTextField1.getText();
 
-        //verificando se nome não está vazio
+        //verificando se nome não está vazio. Se estiver, mostra mensagem de erro
         if (!nome.equals("")) {
             //verificando se as senhas são iguais
             if (senha.equals(confirmarSenha)) {
+                //Variável de gerenciamento do instrutor entre a aplicação e o banco
                 InstrutorDao instrutorDao = new InstrutorDao();
+
+                //Cria nova instância de instrutor contendo as informações dos campos
                 Instrutor instrutor = new Instrutor(nome, senha);
+
+                //Cadastra um novo instrutor no banco. Se cadastrar com sucesso
+                //mostra mensagem de sucesso e encaminha para login. 
+                //Senão, mostra mensagem de erro
                 if (instrutorDao.adicionarInstrutor(instrutor)) {
                     JOptionPane.showMessageDialog(null, "Instrutor criado com sucesso!");
                     LoginInstrutor lo = new LoginInstrutor();
@@ -162,7 +174,8 @@ public class CadastrarInstrutor extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //vai pra tela de login do instrutor
+        //Cria uma instância da tela de Login e a torna visível
+        //removendo a tela de Cadastrar Instrutor
         LoginInstrutor logIns = new LoginInstrutor();
         logIns.setVisible(true);
         this.dispose();
@@ -195,8 +208,9 @@ public class CadastrarInstrutor extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Cria e torna a tela de Cadastrar Instrutor visível */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new CadastrarInstrutor().setVisible(true);
             }

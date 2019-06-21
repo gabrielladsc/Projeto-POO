@@ -12,16 +12,18 @@ import java.sql.Statement;
 /**
  *
  * @author gabi0
- * 
- * Classe mãe que possui variáveis de conexão.
+ *
+ * Classe mãe que possui variáveis de conexão. Modificador protected foi
+ * utilizado para que as classes filhas ou dentro do mesmo pacote tenham acesso.
  */
 public abstract class Dao {
+
     //Variável que gerencia a conexão com o banco de dados.
     protected Connection connection = null;
-    
+
     //Variável utilizada para executar comando SQL e retornar resultados
     protected Statement statement = null;
-    
+
     //Variável que armazena dados providos do banco de dados e que é utilizada
     //para recuperar esses dados para a aplicação
     protected ResultSet resultSet = null;

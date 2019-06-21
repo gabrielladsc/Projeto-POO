@@ -13,13 +13,20 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author gabi0
+ *
+ * Classe que exibe a tela de Login. Auxilia no login de um instrutor e
+ * direciona para o cadastro de um novo instrutor ou em caso de esquecer a
+ * senha.
  */
 public class LoginInstrutor extends javax.swing.JFrame {
 
     /**
-     * Creates new form LoginInstrutor
+     * Construtor que inicializa a tela de Login.
      */
     public LoginInstrutor() {
+        //título da tela de Login
+        setTitle("Login");
+        //Inicializa os componentes da tela
         initComponents();
         //inicia tela no centro
         this.setLocationRelativeTo(null);
@@ -129,24 +136,38 @@ public class LoginInstrutor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //variáveis para guardar conteúdo do campo de texto e senha
-        String text, senha;
+        //variáveis para guardar conteúdo do campo de nome e senha
+        String nome, senha;
 
-        //pegando conteúdo de texto e senha
-        text = jTextField1.getText();
+        //pegando conteúdo de nome e senha
+        nome = jTextField1.getText();
         senha = jPasswordField1.getText();
 
+        //Variável de gerenciamento do instrutor entre a aplicação e o banco
         InstrutorDao instrutorDao = new InstrutorDao();
+
+        //Contém a lista de todos os instrutores cadastrados no sistemas para
+        //validar os campos nome e senha e realizar o login corretamente
         List<Instrutor> listaDeInstrutores = instrutorDao.recuperarInstrutor();
 
+        //Variável de controle dos campos de nome e senha. Se as informações
+        //digitadas estiverem corretas, então o login será feito, caso contrário, 
+        //uma mensagem de erro será apresentada
         boolean instrutorOk = false;
 
+        //Se a lista de instrutores estiver vazia, significa que deve ser criado 
+        //um instrutor para posteriormente realizar o login
         if (listaDeInstrutores.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Registre um novo instrutor!");
         } else {
+            //Para cada instrutor cadastrado, verifica se o nome e senha digitados
+            //bate com algum instrutor já criado. Se sim, realiza-se o login, senão
+            //uma mensagem de erro é mostrada
             for (int i = 0; i < listaDeInstrutores.size(); i++) {
-                if (text.equals(listaDeInstrutores.get(i).getNome())
+                if (nome.equals(listaDeInstrutores.get(i).getNome())
                         && senha.equals(listaDeInstrutores.get(i).getSenha())) {
+                    //Altera o status do instrutor para logado e encaminha para a 
+                    //Tela Principal
                     instrutorDao.alterarLogadoInstrutor(listaDeInstrutores.get(i), true);
                     Principal prin = new Principal();
                     prin.setVisible(true);
@@ -163,13 +184,16 @@ public class LoginInstrutor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //vai pra tela de cadastro do instrutor
+        //Cria uma instância da tela de Cadastro de instrutor e a torna visível
+        //removendo a tela de Login
         CadastrarInstrutor cadI = new CadastrarInstrutor();
         cadI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //Cria uma instância da tela de Esqueceu Senha e a torna visível
+        //removendo a tela de Login
         EsqueceuSenha esq = new EsqueceuSenha();
         esq.setVisible(true);
         this.dispose();
@@ -202,8 +226,9 @@ public class LoginInstrutor extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Cria e torna a tela de Login visível */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new LoginInstrutor().setVisible(true);
             }

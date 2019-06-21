@@ -14,11 +14,12 @@ import java.util.List;
 /**
  *
  * @author gabi0
- * 
- * Classe que gerencia a relação no banco entre um aluno e seus exercícios, 
+ *
+ * Classe que gerencia a relação no banco entre um aluno e seus exercícios,
  * espelhando esse comportamento na aplicação
  */
 public class AlunoExercicioDao extends Dao {
+
     //Construtor que inicializa a conexão com o banco de dados
     public AlunoExercicioDao() {
         this.connection = MySqlConnector.getConnection();
@@ -67,7 +68,21 @@ public class AlunoExercicioDao extends Dao {
     public boolean remover(int alunoId, int exercicioId) {
         try {
             this.statement = this.connection.createStatement();
-            String query = "DELETE FROM alunoxexercicio WHERE alunoId = " + alunoId + " and exercicioId = " +  exercicioId;
+            String query = "DELETE FROM alunoxexercicio WHERE alunoId = " + alunoId + " and exercicioId = " + exercicioId;
+            this.statement.executeUpdate(query);
+            return true;
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+            return false;
+        }
+    }
+
+    //Quando um aluno é excluido, remove todas as relações com quaisquer 
+    //exercícios envolvendo o aluno em questão
+    public boolean removerAluno(int alunoId) {
+        try {
+            this.statement = this.connection.createStatement();
+            String query = "DELETE FROM alunoxexercicio WHERE alunoId = " + alunoId;
             this.statement.executeUpdate(query);
             return true;
         } catch (SQLException sqlException) {
@@ -76,12 +91,12 @@ public class AlunoExercicioDao extends Dao {
         }
     }
     
-    //Quando um aluno é excluido, remove todas as relações com quaisquer 
-    //exercícios envolvendo o aluno em questão
-    public boolean removerAluno(int alunoId) {
+    //Quando um exercicio é excluido, remove todas as relações com quaisquer 
+    //alunos envolvendo o exercicio em questão
+    public boolean removerExercicio(int exercicioId) {
         try {
             this.statement = this.connection.createStatement();
-            String query = "DELETE FROM alunoxexercicio WHERE alunoId = " + alunoId;
+            String query = "DELETE FROM alunoxexercicio WHERE exercicioId = " + exercicioId;
             this.statement.executeUpdate(query);
             return true;
         } catch (SQLException sqlException) {

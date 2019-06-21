@@ -4,24 +4,27 @@
  * and open the template in the editor.
  */
 package Java;
+
 import View.LoginInstrutor;
 
 /**
  *
  * @author gabi0
+ * 
+ * Classe para inicializar a aplicação
  */
 public class Main {
 
     /**
      * @param args the command line arguments
-     * 
-     * 
+     *
+     *
      */
     public static void main(String[] args) {
         //Instancia e deixa visível a tela que será a inicialização da aplicação
         LoginInstrutor login = new LoginInstrutor();
         login.setVisible(true);
-        
+
         //Muda o tema da aplicação
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

@@ -8,16 +8,17 @@ package Data;
 /**
  *
  * @author gabi0
- * 
+ *
  * Classe para guardar os dados dos alunos.
  */
 public class Aluno {
+
     //identificação do aluno na banco de dados
     private int id;
-    
+
     //identificação do instrutor responsável pelo aluno
     private int instrutorId;
-    
+
     // atributos específicos de cada aluno
     private String nome;
     private String idade;

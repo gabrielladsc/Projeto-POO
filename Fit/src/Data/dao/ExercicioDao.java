@@ -14,11 +14,12 @@ import java.util.List;
 /**
  *
  * @author gabi0
- * 
- * Classe que gerencia os dados do exercício entre
- * a aplicação e o banco de dados.
+ *
+ * Classe que gerencia os dados do exercício entre a aplicação e o banco de
+ * dados.
  */
 public class ExercicioDao extends Dao {
+
     //Construtor que inicializa a conexão com o banco de dados
     public ExercicioDao() {
         this.connection = MySqlConnector.getConnection();
@@ -27,7 +28,7 @@ public class ExercicioDao extends Dao {
     //Através de uma instância do exercício cria um novo exercício no banco
     public boolean adicionarExercicio(Exercicio exercicio) {
         try {
-             //Insere um novo exercício no banco de dados através da Query SQL
+            //Insere um novo exercício no banco de dados através da Query SQL
             //Caso insira com sucesso, retorna true, senão, false
             this.statement = this.connection.createStatement();
             String query = "INSERT INTO exercicio (nome, serie, repeticoes) "
@@ -88,12 +89,12 @@ public class ExercicioDao extends Dao {
         }
     }
 
-     //Deleta exercício. Caso delete com sucesso retorna true, senão, false
+    //Deleta exercício. Caso delete com sucesso retorna true, senão, false
     public boolean deletarExercicio(Exercicio exercicio) {
         try {
             this.statement = this.connection.createStatement();
             String queryDeletar = "DELETE FROM exercicio WHERE exercicio_id = "
-                    + '"'+ exercicio.getId() + '"';
+                    + '"' + exercicio.getId() + '"';
             this.statement.executeUpdate(queryDeletar);
             return true;
         } catch (SQLException sqlException) {

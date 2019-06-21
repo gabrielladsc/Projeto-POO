@@ -8,13 +8,14 @@ package Data;
 /**
  *
  * @author gabi0
- * 
+ *
  * Classe para guardar os dados dos exercicios.
  */
 public class Exercicio {
+
     //Identificaçãoo do exercício no banco de dados
     private int id;
-    
+
     //Atributos específicos do exercício
     private String nome;
     private String serie;
@@ -25,9 +26,9 @@ public class Exercicio {
         this.serie = series;
         this.repeticoes = repeticoes;
     }
-    
+
     public Exercicio() {
-        
+
     }
 
     //Getters e setters

@@ -22,30 +22,60 @@ import util.ComponentController;
 /**
  *
  * @author gabi0
+ * 
+ * Classe que exibe a tela de Editar de Aluno. Auxilia na editagem do mesmo e
+ * gerenciamento dos dados.
  */
 public class EditarAluno extends javax.swing.JFrame {
 
-    private Instrutor instrutorLogado;
+    //Variável que guarda o instrutor logado atualmente para recuperar apenas os alunos
+    //deste instrutor
+    private final Instrutor instrutorLogado;
+
+    //Variável de gerenciamento dos exercícios entre a aplicação e o banco
     private final ExercicioDao exercicioDao = new ExercicioDao();
+
+    //Lista que contém todos os exercícios cadastrados e que o aluno selecionado ainda não possui
     private List<Exercicio> listaDeExercicios;
+
+    //Variável de gerenciamento dos alunos entre a aplicação e o banco
     private final AlunoDao alunoDao = new AlunoDao();
+
+    //Lista com todos os alunos associados ao instrutor logado
     private List<Aluno> listaDeAlunos;
+
+    //Armazena o aluno selecionado atualmente
     private Aluno alunoSelecionado;
-    private List<Exercicio> exerciciosAlunoSelecionado = new ArrayList();
+
+    //Lista com os exercícios que o aluno atualmente selecionado possui
+    private final List<Exercicio> exerciciosAlunoSelecionado;
+
+    //Variável de gerenciamento da relação entre um aluno e seus exercícios entre a aplicação e o banco
     private final AlunoExercicioDao alunoExDao = new AlunoExercicioDao();
 
     /**
-     * Creates new form EditarAluno
+     * Construtor que inicializa a tela Editar Aluno.
      */
     public EditarAluno() {
+        //iniciliza a lista de exercicios do aluno
+        this.exerciciosAlunoSelecionado = new ArrayList();
         InstrutorDao instrutoDao = new InstrutorDao();
+        //Recupera o instrutor atualmente logado
         instrutorLogado = instrutoDao.recuperarInstrutorLogado();
+        //título da tela Editar Aluno
         this.setTitle("Editar Aluno");
+        //Inicializa os componentes da tela
         initComponents();
+        //Inicializa o combo box contendo os alunos cadastrados pelo instrutor logado
         initComboBox();
+        //inicia tela no centro
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     * Recupera todos os alunos cadastrados no banco de dados pelo instrutor
+     * logado e adiciona no combo box para que possam ser editados.
+     */
     private void initComboBox() {
         jComboBox1.removeAllItems();
         listaDeAlunos = alunoDao.recuperarAlunos(instrutorLogado.getId());
@@ -54,13 +84,28 @@ public class EditarAluno extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Monta as tabelas dos exercícios do aluno selecionado e dos exercícios no
+     * banco que o aluno ainda não possui
+     */
     private void montarListaDeExercicios() {
+        //Limpa a lista de exercícios do aluno, quando selecionar novo aluno
         exerciciosAlunoSelecionado.clear();
+
+        //Recupera todos os exercícios cadastrados novamente
         listaDeExercicios = exercicioDao.recuperarExercicios();
+
+        //Lista com a relação dos id's dos exercícios que o aluno selecionado possui 
         List<AlunoExercicio> listaDeExerciciosAluno = alunoExDao.recuperar(alunoSelecionado.getId());
 
+        //Para cada item na variável listaDeExerciciosAluno pega o id de cada exercício 
+        //e recupera o exercício correspondente na variável listaDeExercicios
+        //Adiciona o exercício encontrado a lista de exercícios do aluno selecionado
+        //e remove esse exercício da lista de exercícios, já que ele pertence ao aluno
         listaDeExerciciosAluno.forEach((item) -> {
             for (int i = 0; i < listaDeExercicios.size(); i++) {
+                //Se o id do exercício for igual ao id de algum exercício do banco
+                //adiciona esse exercício para o aluno e o retira da lista de exercícios 
                 if (item.getExercicioId() == listaDeExercicios.get(i).getId()) {
                     exerciciosAlunoSelecionado.add(listaDeExercicios.get(i));
                     listaDeExercicios.remove(listaDeExercicios.get(i));
@@ -68,18 +113,21 @@ public class EditarAluno extends javax.swing.JFrame {
             }
         });
 
+        //Variável para armazenar o nome dos exercícios que o aluno possui
+        //e adicionar na tabela correspondente
         Vector<String> exerciciosAtuais = new Vector();
         exerciciosAlunoSelecionado.forEach((ex) -> {
             exerciciosAtuais.add(ex.getNome());
         });
         jList2.setListData(exerciciosAtuais);
 
+        //Variável para armazenar o nome dos exercícios que o aluno não possui
+        //e adicionar na tabela correspondente
         Vector<String> exerciciosNovos = new Vector();
         listaDeExercicios.forEach((ex) -> {
             exerciciosNovos.add(ex.getNome());
         });
         jList1.setListData(exerciciosNovos);
-
     }
 
     /**
@@ -347,11 +395,16 @@ public class EditarAluno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        /*quando um italunoem for selecionado, recupera a posição do item selecionado
+        através do combo box e consequentemente o exercicio selecionado 
+        preenchendo os campos de acordo com as informações no aluno.
+         */
         int itemSelecionado = jComboBox1.getSelectedIndex();
 
         if (itemSelecionado >= 0) {
             alunoSelecionado = listaDeAlunos.get(itemSelecionado);
 
+            //Habilita os campos, tabelas e combo box e insera as informações correspondentes
             ComponentController.alterarJText(true, alunoSelecionado.getNome(), jTextField2);
             ComponentController.alterarJText(true, alunoSelecionado.getIdade(), jTextField3);
             ComponentController.alterarJText(true, alunoSelecionado.getAltura(), jTextField4);
@@ -363,8 +416,11 @@ public class EditarAluno extends javax.swing.JFrame {
             ComponentController.alterarComponente(true, jList2);
             ComponentController.alterarComponente(true, jButton1);
             ComponentController.alterarComponente(true, jButton2);
+
+            //monta as tabelas de exercícios de acordo com o aluno selecionado
             montarListaDeExercicios();
         } else {
+            //Esvazia-se e desabilita os campos
             ComponentController.alterarJText(false, "", jTextField1);
             ComponentController.alterarJText(false, "", jTextField2);
             ComponentController.alterarJText(false, "", jTextField3);
@@ -399,65 +455,83 @@ public class EditarAluno extends javax.swing.JFrame {
         novaAltura = jTextField4.getText();
         novoPeso = jTextField5.getText();
 
-        //verificando se textos não estão vazios
+        //verificando se textos não estão vazios. Se estiverem, mostra mensagem de erro
         if (!objetivo.equals("") && !novoNome.equals("") && !novaIdade.equals("")
                 && !novaAltura.equals("") && !novoPeso.equals("")) {
-            //salva no mysql
+            //Atualiza-se as informações do aluno selecionado de acordo com os campos
             alunoSelecionado.setNome(novoNome);
             alunoSelecionado.setIdade(novaIdade);
             alunoSelecionado.setAltura(novaAltura);
             alunoSelecionado.setObjetivo(objetivo);
             alunoSelecionado.setPeso(novoPeso);
             alunoSelecionado.setSexo(jComboBox2.getSelectedIndex());
+
+            //Se o aluno for atualizado com sucesso, mostra-se mensagem de sucesso
+            //e atualiza-se a lista de alunos na tela, senão, mostra mensagem de erro
             if (alunoDao.atualizarAluno(alunoSelecionado)) {
                 JOptionPane.showMessageDialog(null, "Aluno atualizado com sucesso!");
+                //Atualiza-se as informações no combo box de exercícios
                 initComboBox();
             } else {
                 JOptionPane.showMessageDialog(null, "Falha ao atualizar aluno");
             }
-            
-            /*volta pra tela principal
-            Principal p = new Principal();
-            p.setVisible(true);
-            this.dispose();*/
         } else {
             JOptionPane.showMessageDialog(null, "Algum dos campos se encontra vazio");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        //Cria uma instância da tela Principal e a torna visível
+        //removendo a tela de Editar Aluno
         Principal princi = new Principal();
         princi.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if (alunoExDao.removerAluno(alunoSelecionado.getId()) && 
-                alunoDao.deletarAluno(alunoSelecionado) ) {
-            JOptionPane.showMessageDialog(null, "Aluno excluido com sucesso!");
-            initComboBox();
+        if (alunoSelecionado != null) {
+            //Remove o aluno selecionado assim como quaisquer relações existentes
+            //entre esse aluno e um exercício. Se a remoção acontecer com sucesso, mostra-se
+            //mensagem de sucesso, senão, mostra-se mensagem de erro
+            if (alunoExDao.removerAluno(alunoSelecionado.getId())
+                    && alunoDao.deletarAluno(alunoSelecionado)) {
+                JOptionPane.showMessageDialog(null, "Aluno excluido com sucesso!");
+                initComboBox();
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao excluir aluno");
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Falha ao excluir aluno");
+            JOptionPane.showMessageDialog(null, "Selecione um aluno!");
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //Vetor de inteiros contendo as posições dos exercícios selecionados
+        //da lista de exercícios que o aluno possui        
         int[] exerciciosDoAlunoSelecionados = jList2.getSelectedIndices();
-        
+
+        //Para cada item selecionado da tabela, recupera-se o exercicio selecionado
+        //e remove a relação entre o aluno e o exercício
         for (int i = 0; i < exerciciosDoAlunoSelecionados.length; i++) {
             Exercicio exercicioSelecionado = exerciciosAlunoSelecionado.get(exerciciosDoAlunoSelecionados[i]);
             alunoExDao.remover(alunoSelecionado.getId(), exercicioSelecionado.getId());
         }
+        //Atualiza-se as tabelas
         montarListaDeExercicios();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Vetor de inteiros contendo as posições dos exercícios selecionados
+        //da lista de exercícios que o aluno não possui       
         int[] novosExercicios = jList1.getSelectedIndices();
-        
+
+        //Para cada item selecionado da tabela de exercícios que o aluno não possui,
+        //recupera-se o exercicio selecionado e cria-se uma nova relação entre o aluno e o exercício
         for (int i = 0; i < novosExercicios.length; i++) {
             Exercicio exercicioSelecionado = listaDeExercicios.get(novosExercicios[i]);
             alunoExDao.adicionar(alunoSelecionado.getId(), exercicioSelecionado.getId());
         }
+        //Atualiza-se as tabelas
         montarListaDeExercicios();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -488,8 +562,9 @@ public class EditarAluno extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Cria e torna a tela de Editar Aluno visível */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new EditarAluno().setVisible(true);
             }

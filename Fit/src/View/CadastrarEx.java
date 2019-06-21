@@ -12,16 +12,21 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author gabi0
+ *
+ * Classe que exibe a tela de Cadastro de Exercicio. Auxilia no cadastro do
+ * mesmo e gerenciamento dos dados.
  */
 public class CadastrarEx extends javax.swing.JFrame {
 
     /**
-     * Creates new form CadastrarEx
+     * Construtor que inicializa a tela Cadastrar Exercício.
      */
     public CadastrarEx() {
+        //título da tela Cadastrar Instrutor
         setTitle("Cadastro de Exercício");
+        //Inicializa os componentes da tela
         initComponents();
-        //inicia tela no centro
+        //inicia a tela no centro
         this.setLocationRelativeTo(null);
     }
 
@@ -127,14 +132,15 @@ public class CadastrarEx extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //volta para tela principal
+        //Cria uma instância da tela de Principal e a torna visível
+        //removendo a tela de Cadastrar Exercício
         Principal p2 = new Principal();
         p2.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //variáveis para pegar conteúdo dos campos de texto
+        //variáveis para pegar conteúdo dos campos referentes ao Exercício
         String nomeExercicio;
         String repeticoes;
         String series;
@@ -146,8 +152,15 @@ public class CadastrarEx extends javax.swing.JFrame {
 
         //verificando se algum campo de texto está vazio
         if (!nomeExercicio.equals("") && !repeticoes.equals("") && !series.equals("")) {
+            //Variável de gerenciamento do exercício entre a aplicação e o banco
             ExercicioDao exercicioDao = new ExercicioDao();
+
+            //Cria nova instância de exercício contendo as informações dos campos
             Exercicio exercicio = new Exercicio(nomeExercicio, series, repeticoes);
+
+            //Cadastra um novo execício no banco. Se cadastrar com sucesso
+            //mostra mensagem de sucesso e encaminha para login. 
+            //Senão, mostra mensagem de erro
             if (exercicioDao.adicionarExercicio(exercicio)) {
                 JOptionPane.showMessageDialog(null, "Exercício criado com sucesso!");
                 Principal telaP = new Principal();
@@ -189,8 +202,9 @@ public class CadastrarEx extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Cria e torna a tela de Cadastrar Exercicio visível */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new CadastrarEx().setVisible(true);
             }

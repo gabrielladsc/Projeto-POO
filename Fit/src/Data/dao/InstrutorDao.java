@@ -14,11 +14,12 @@ import java.util.List;
 /**
  *
  * @author gabi0
- * 
- * Classe que gerencia os dados do instrutor entre
- * a aplicação e o banco de dados.
+ *
+ * Classe que gerencia os dados do instrutor entre a aplicação e o banco de
+ * dados.
  */
 public class InstrutorDao extends Dao {
+
     //Construtor que inicializa a conexão com o banco de dados
     public InstrutorDao() {
         this.connection = MySqlConnector.getConnection();
@@ -65,7 +66,7 @@ public class InstrutorDao extends Dao {
 
         return listaDeInstrutores;
     }
-    
+
     //Recupera o instrutor que tem o status logado = true para cadastrar
     //o aluno corretamente
     public Instrutor recuperarInstrutorLogado() {

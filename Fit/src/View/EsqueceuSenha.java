@@ -13,14 +13,21 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author gabi0
+ *
+ * Classe que exibe a tela de Esqueceu de Senha. Auxilia na troca da senha do
+ * instrutor.
  */
 public class EsqueceuSenha extends javax.swing.JFrame {
 
     /**
-     * Creates new form EsqueceuSenha
+     * Construtor que inicializa a tela de Esqueceu Senha.
      */
     public EsqueceuSenha() {
+        //título da tela Esqueceu senha
+        setTitle("Esqueceu a senha");
+        //Inicializa os componentes da tela
         initComponents();
+        //inicia tela no centro
         this.setLocationRelativeTo(null);
     }
 
@@ -137,18 +144,24 @@ public class EsqueceuSenha extends javax.swing.JFrame {
         confirmarSenha = jPasswordField2.getText();
         nome = jTextField1.getText();
 
+        //Variável de gerenciamento do instrutor entre a aplicação e o banco
         InstrutorDao instrutorDao = new InstrutorDao();
+        //Contém a lista de todos os instrutores cadastrados no sistemas
         List<Instrutor> listaDeInstrutores = instrutorDao.recuperarInstrutor();
+
         Instrutor instrutor = null;
-        
+
+        //Para cada instrutor na lista, procura por um que tenha o mesmo nome
+        //que foi digitado. Caso encontre, armazana-se o instrutor em uma variável
         for (int i = 0; i < listaDeInstrutores.size(); i++) {
-            System.out.println(listaDeInstrutores.get(i).getNome());
             if (nome.equals(listaDeInstrutores.get(i).getNome())) {
                 instrutor = listaDeInstrutores.get(i);
                 break;
             }
         }
 
+        //Se o instrutor for encontrado, atualiza-se a senha do mesmo e 
+        //encaminha para tela de Login, desde que as senhas digitadas sejam iguais. 
         if (instrutor != null) {
             if (senha.equals(confirmarSenha)) {
                 instrutor.setSenha(senha);
@@ -160,7 +173,8 @@ public class EsqueceuSenha extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Senhas diferem");
             }
         } else {
-            //verificando se nome não está vazio
+            //verificando se nome não está vazio ou não existe no banco.
+            //Se sim, mostra mensagem de erro
             if (!nome.equals("")) {
                 JOptionPane.showMessageDialog(null, "Instrutor não cadastrado");
             } else {
@@ -170,7 +184,8 @@ public class EsqueceuSenha extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //vai pra tela de login do instrutor
+        //Cria uma instância da tela de Login e a torna visível
+        //removendo a tela de Esqueceu senha
         LoginInstrutor logIns = new LoginInstrutor();
         logIns.setVisible(true);
         this.dispose();
@@ -203,8 +218,9 @@ public class EsqueceuSenha extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Cria e torna a tela de Esqueceu Senha visível */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new EsqueceuSenha().setVisible(true);
             }

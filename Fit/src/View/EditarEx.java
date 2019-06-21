@@ -6,32 +6,51 @@
 package View;
 
 import Data.Exercicio;
+import Data.dao.AlunoExercicioDao;
 import Data.dao.ExercicioDao;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import util.ComponentController;
 
 /**
  *
  * @author gabi0
+ *
+ * Classe que exibe a tela de Editar de Exercicio. Auxilia na editagem do mesmo
+ * e gerenciamento dos dados.
  */
 public class EditarEx extends javax.swing.JFrame {
 
+    //Variável de gerenciamento dos exercícios entre a aplicação e o banco
     private final ExercicioDao exercicioDao = new ExercicioDao();
+
+    //Lista com todos os exercícios cadastrados
     private List<Exercicio> listaDeExercicios;
+
+    //Armazena o exercício atualmente selecionado
     private Exercicio exercicioSelecionado;
+    
+    //Variável de gerenciamento da relação entre um aluno e seus exercícios entre a aplicação e o banco
+    private final AlunoExercicioDao alunoExDao = new AlunoExercicioDao();
 
     /**
-     * Creates new form EditarEx
+     * Construtor que inicializa a tela Editar Execicio.
      */
     public EditarEx() {
+        //título da tela Editar Exercício
         setTitle("Editar Exercício");
+        //Inicializa os componentes da tela
         initComponents();
+        //Inicializa o combo box contendo os exercícios cadastrados
         initComboBox();
+        //inicia tela no centro
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     * Recupera todos os exercícios cadastrados no banco de dados e adiciona no
+     * combo box para que possam ser editados.
+     */
     private void initComboBox() {
         jComboBox1.removeAllItems();
         listaDeExercicios = exercicioDao.recuperarExercicios();
@@ -177,14 +196,14 @@ public class EditarEx extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        /*quando um item for selecionado, recupera a posição do item selecionado
-        através do combo box e consequentemente o exercicio selecionado. Substrai-se
-        1 do index, pois a lista de exercicios já possui o item "Nenhum".
-        Além disso, caso o item selecionado seja um exercicio, habilita-se os campos de editagem. */
+        /*quando um exercício for selecionado, recupera a posição do item selecionado
+        através do combo box e consequentemente o exercicio selecionado 
+        preenchendo os campos de acordo com as informações no exercício.
+         */
         int itemSelecionado = jComboBox1.getSelectedIndex();
         if (itemSelecionado >= 0) {
             exercicioSelecionado = listaDeExercicios.get(itemSelecionado);
-
+            //Habilita os campos e insera as informações correspondentes
             ComponentController.alterarJText(true,
                     exercicioSelecionado.getNome(), jTextField1);
             ComponentController.alterarJText(true,
@@ -192,6 +211,7 @@ public class EditarEx extends javax.swing.JFrame {
             ComponentController.alterarJText(true,
                     exercicioSelecionado.getSerie(), jTextField3);
         } else {
+            //Esvazia-se e desabilita os campos
             ComponentController.alterarJText(false, "", jTextField1);
             ComponentController.alterarJText(false, "", jTextField2);
             ComponentController.alterarJText(false, "", jTextField3);
@@ -200,7 +220,7 @@ public class EditarEx extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        //variáveis para pegar conteúdo dos campos de texto
+        //variáveis para pegar conteúdo dos campos de texto referentes as informações do exercício
         String novoNome;
         String novoRepeticoes;
         String novoSerie;
@@ -210,17 +230,19 @@ public class EditarEx extends javax.swing.JFrame {
         novoRepeticoes = jTextField2.getText();
         novoSerie = jTextField3.getText();
 
-        //verificando se algum campo de texto está vazio
+        //verificando se algum campo de texto está vazio. Se estiver, mostra mensagem de erro
         if (!novoNome.equals("") && !novoRepeticoes.equals("") && !novoSerie.equals("")) {
+            //Atualiza-se as informações do exercício selecionado de acordo com os campos
             exercicioSelecionado.setNome(novoNome);
             exercicioSelecionado.setRepeticoes(novoRepeticoes);
             exercicioSelecionado.setSerie(novoSerie);
+
+            //Se o exercício for atualizado com sucesso, mostra-se mensagem de sucesso
+            //e atualiza-se a lista de exercícios na tela, senão, mostra mensagem de erro
             if (exercicioDao.atualizarExercicio(exercicioSelecionado)) {
                 JOptionPane.showMessageDialog(null, "Exercício atualizado com sucesso!");
+                //Atualiza-se as informações no combo box de alunos
                 initComboBox();
-                /*Principal telaP = new Principal();
-                telaP.setVisible(true);
-                this.dispose();*/
             } else {
                 JOptionPane.showMessageDialog(null, "Falha ao atualizar exercício");
             }
@@ -230,6 +252,8 @@ public class EditarEx extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        //Cria uma instância da tela Principal e a torna visível
+        //removendo a tela de Editar Exercício
         Principal p4 = new Principal();
         p4.setVisible(true);
         this.dispose();
@@ -237,7 +261,11 @@ public class EditarEx extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         if (exercicioSelecionado != null) {
-            if (exercicioDao.deletarExercicio(exercicioSelecionado)) {
+            //Deleta o exercício selecionado. Se deletar corretamente, mostra uma
+            //mensagem de sucesso e atualiza-se a lista de exercícios. Senao, mostra 
+            //mensagem de erro
+            if (alunoExDao.removerExercicio(exercicioSelecionado.getId()) && 
+                    exercicioDao.deletarExercicio(exercicioSelecionado)) {
                 JOptionPane.showMessageDialog(null, "Exercício deletado com sucesso!");
                 initComboBox();
             } else {
@@ -275,8 +303,9 @@ public class EditarEx extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Cria e torna a tela de Editar Exercicio visível */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new EditarEx().setVisible(true);
             }

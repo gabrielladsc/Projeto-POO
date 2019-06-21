@@ -8,13 +8,14 @@ package Data;
 /**
  *
  * @author gabi0
- * 
+ *
  * Classe para guardar os dados do instrutor.
  */
 public class Instrutor {
+
     //Identificação do instrutor no banco de dados
     private int id;
-    
+
     //Atributos específicos do instrutor
     private String nome;
     private String senha;

@@ -7,30 +7,36 @@ package View;
 
 import Data.Instrutor;
 import Data.dao.InstrutorDao;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
 
 /**
  *
  * @author gabi0
+ *
+ * Classe que exibe a tela Principal. Auxilia nas funcionalidades da aplicação,
+ * como cadastro e editagem de aluno e exercicio.
  */
 public class Principal extends javax.swing.JFrame {
-    
-    private Instrutor instrutorLogado;
+
+    //Guarda uma instância do instrutor que está logado no momento
+    //Modificador final pois não será modificado
+    private final Instrutor instrutorLogado;
+
+    //Variável de gerenciamento do instrutor entre a aplicação e o banco
     private final InstrutorDao instrutorDao = new InstrutorDao();
 
     /**
-     * Creates new form Principal
+     * Construtor que inicializa a tela Principal.
      */
     public Principal() {
+        //Recupera do banco o instrutor que está logado
         instrutorLogado = instrutorDao.recuperarInstrutorLogado();
-        //título
+        //título da tela Principal
         setTitle("Fit");
+        //Inicializa os componentes da tela
         initComponents();
         //inicia tela no centro
         this.setLocationRelativeTo(null);
-        
+
     }
 
     /**
@@ -137,27 +143,32 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        //Cria uma instância da tela de Editar Exercício e a torna visível
+        //removendo a tela Principal
         EditarEx editEx = new EditarEx();
         editEx.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        //vai pra tela de cadastro de aluno
+        //Cria uma instância da tela de Cadastrar Aluno e a torna visível
+        //removendo a tela Principal
         CadastrarAluno cad = new CadastrarAluno();
         cad.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        //vai pra tela de cadastro de exercício
+        //Cria uma instância da tela de Cadastrar Exercício e a torna visível
+        //removendo a tela Principal
         CadastrarEx cadEx = new CadastrarEx();
         cadEx.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //vai pra tela de login do instrutor
+        //Cria uma instância da tela de Login e a torna visível
+        //removendo a tela Principal
         instrutorDao.alterarLogadoInstrutor(instrutorLogado, false);
         LoginInstrutor log = new LoginInstrutor();
         log.setVisible(true);
@@ -165,6 +176,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        //Cria uma instância da tela de Editar Aluno e a torna visível
+        //removendo a tela Principal
         EditarAluno edit = new EditarAluno();
         edit.setVisible(true);
         this.dispose();
@@ -197,8 +210,9 @@ public class Principal extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Cria e torna a tela Principal visível */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Principal().setVisible(true);
             }

@@ -19,32 +19,58 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author gabi0
+ * 
+ * Classe que exibe a tela de Cadastro de Aluno. Auxilia no cadastro do mesmo e
+ * gerenciamento dos dados.
  */
 public class CadastrarAluno extends javax.swing.JFrame {
 
-    private Instrutor instrutorLogado;
+    //Variável que guarda o instrutor logado atualmente para recuperar apenas os alunos
+    //deste instrutor
+    private final Instrutor instrutorLogado;
+
+    //Variável de gerenciamento dos exercícios entre a aplicação e o banco
     private final ExercicioDao exercicioDao = new ExercicioDao();
+
+    //Variável de gerenciamento dos alunos entre a aplicação e o banco
     private final AlunoDao alunoDao = new AlunoDao();
+
+    //Variável de gerenciamento da relação entre um aluno e seus exercícios entre a aplicação e o banco
     private final AlunoExercicioDao alunoExercicioDao = new AlunoExercicioDao();
+
+    //Lista que contém todos os exercícios cadastrados 
     private final List<Exercicio> listaDeExercicios;
 
     /**
-     * Creates new form CadastrarAluno
+     * Construtor que inicializa a tela Cadastrar Aluno.
      */
     public CadastrarAluno() {
         InstrutorDao instrutorDao = new InstrutorDao();
+        //Recupera o instrutor logado
         instrutorLogado = instrutorDao.recuperarInstrutorLogado();
+        //Monta lista com todos os exercícios cadastrados no banco
         listaDeExercicios = exercicioDao.recuperarExercicios();
-        //título
+        //título da tela Cadastrar Aluno
         setTitle("Cadastro de Aluno");
+        //Inicializa os componentes da tela
         initComponents();
+        //Inicializa tabela dos exercícios disponiveis
         initList();
         //inicial tela no centro
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     * Monta a tabela contendo todos os exercícios cadastrados no banco para
+     * adicionar na ficha do aluno.
+     */
     private void initList() {
+        //Variável para armazenar o nome dos exercícios 
+        //e adicionar na tabela correspondente
         Vector<String> itemList = new Vector<>();
+
+        //Para cada exercício na lista, adiciona o nome do mesmo no Vector,
+        //Pois so aceita String
         listaDeExercicios.forEach((ex) -> {
             itemList.add(ex.getNome());
         });
@@ -349,7 +375,8 @@ public class CadastrarAluno extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //volta para tela principal
+        //Cria uma instância da tela Principal e a torna visível
+        //removendo a tela de Cadastrar Aluno
         Principal p = new Principal();
         p.setVisible(true);
         this.dispose();
@@ -365,6 +392,9 @@ public class CadastrarAluno extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //variáveis pra pegar o conteúdo dos campos de texto
+
+        //Vetor de inteiros contendo as posições dos exercícios selecionados
+        //da lista de exercícios
         int[] exerciciosSelecionados;
         String objetivo;
         String nomeAluno;
@@ -382,15 +412,31 @@ public class CadastrarAluno extends javax.swing.JFrame {
         //verificando se textos não estão vazios
         if (!objetivo.equals("") && !nomeAluno.equals("") && !idade.equals("")
                 && !altura.equals("") && !peso.equals("")) {
-            //salva no mysql
+            //Cria nova instância de aluno contendo as informações dos campos
             Aluno aluno = new Aluno(nomeAluno, idade, altura, peso,
                     jComboBox1.getSelectedIndex(), objetivo);
+
+            //Associa o aluno ao instrutor responsável
             aluno.setInstrutorId(instrutorLogado.getId());
+
+            //Recupera os exercício selecionados na tablea
             exerciciosSelecionados = jList1.getSelectedIndices();
 
+            //Cadastra um novo aluno no banco. Se cadastrar com sucesso
+            //mostra mensagem de sucesso e encaminha para login. 
+            //Senão, mostra mensagem de erro
             if (alunoDao.adicionarAluno(aluno)) {
+                //Recupera o id do aluno que acabou de ser criado para criar
+                //as relações entre o aluno e os exercícios
                 int idAlunoCriado = alunoDao.recuperarIdAlunoPeloNome(aluno.getNome());
+
+                //booleano que indica se todas as inserções ocorreram com sucesso.
+                //Se sim, mostra mensagem de sucesso.
+                //Se não, mostra mensagem de erro.
                 boolean insercaoOk = true;
+
+                //Para cada exercício selecionado, cria-se uma nova relação
+                //entre o aluno criado e o exercício.
                 for (int i = 0; i < exerciciosSelecionados.length; i++) {
                     if (!alunoExercicioDao.adicionar(idAlunoCriado,
                             listaDeExercicios.get(exerciciosSelecionados[i]).getId())) {
@@ -407,7 +453,7 @@ public class CadastrarAluno extends javax.swing.JFrame {
                     p.setVisible(true);
                     this.dispose();
                 } else {
-                   JOptionPane.showMessageDialog(null, "Falha ao cadastrar aluno");
+                    JOptionPane.showMessageDialog(null, "Falha ao cadastrar aluno");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Falha ao cadastrar aluno");
@@ -448,7 +494,7 @@ public class CadastrarAluno extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Cria e torna a tela de Cadastrar Aluno visível */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -456,7 +502,7 @@ public class CadastrarAluno extends javax.swing.JFrame {
             }
         });
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
