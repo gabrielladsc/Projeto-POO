@@ -6,9 +6,13 @@
 package View;
 
 import Data.Exercicio;
+import Data.Instrutor;
 import Data.MySqlConnector;
 import Data.dao.AlunoExercicioDao;
 import Data.dao.ExercicioDao;
+import Data.dao.InstrutorDao;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import util.ComponentController;
@@ -24,6 +28,9 @@ public class EditarEx extends javax.swing.JFrame {
 
     //Variável de gerenciamento dos exercícios entre a aplicação e o banco
     private final ExercicioDao exercicioDao = new ExercicioDao();
+    
+    //Variável de gerenciamento do instrutor entre a aplicação e o banco
+    private final InstrutorDao instrutorDao = new InstrutorDao();
 
     //Lista com todos os exercícios cadastrados
     private List<Exercicio> listaDeExercicios;
@@ -46,6 +53,16 @@ public class EditarEx extends javax.swing.JFrame {
         initComboBox();
         //inicia tela no centro
         this.setLocationRelativeTo(null);
+        
+        //Altera o status de logado do instrutor para false
+        addWindowListener(new WindowAdapter(){
+            @Override
+                public void windowClosing(WindowEvent e) {
+                    Instrutor instrutorLogado = instrutorDao.recuperarInstrutorLogado();
+                    instrutorDao.alterarLogadoInstrutor(instrutorLogado, false);
+                    dispose();
+                }
+        });
     }
 
     /**

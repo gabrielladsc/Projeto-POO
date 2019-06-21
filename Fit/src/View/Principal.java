@@ -9,6 +9,9 @@ import Data.Instrutor;
 import Data.MySqlConnector;
 import Data.dao.AlunoDao;
 import Data.dao.InstrutorDao;
+import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  *
@@ -25,7 +28,7 @@ public class Principal extends javax.swing.JFrame {
 
     //Variável de gerenciamento do instrutor entre a aplicação e o banco
     private final InstrutorDao instrutorDao = new InstrutorDao();
-    
+
     private final AlunoDao alunoDao = new AlunoDao();
 
     /**
@@ -42,7 +45,15 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         //inicia tela no centro
         this.setLocationRelativeTo(null);
-
+        
+        //Altera o status de logado do instrutor para false
+        addWindowListener(new WindowAdapter(){
+            @Override
+                public void windowClosing(WindowEvent e) {
+                    instrutorDao.alterarLogadoInstrutor(instrutorLogado, false);
+                    dispose();
+                }
+        });
     }
 
     /**

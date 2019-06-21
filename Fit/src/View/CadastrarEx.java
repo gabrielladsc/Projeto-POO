@@ -6,8 +6,12 @@
 package View;
 
 import Data.Exercicio;
+import Data.Instrutor;
 import Data.MySqlConnector;
 import Data.dao.ExercicioDao;
+import Data.dao.InstrutorDao;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +22,9 @@ import javax.swing.JOptionPane;
  * mesmo e gerenciamento dos dados.
  */
 public class CadastrarEx extends javax.swing.JFrame {
+    
+    //Variável de gerenciamento do instrutor entre a aplicação e o banco
+    private final InstrutorDao instrutorDao = new InstrutorDao();
 
     /**
      * Construtor que inicializa a tela Cadastrar Exercício.
@@ -29,6 +36,16 @@ public class CadastrarEx extends javax.swing.JFrame {
         initComponents();
         //inicia a tela no centro
         this.setLocationRelativeTo(null);
+        
+        //Altera o status de logado do instrutor para false
+        addWindowListener(new WindowAdapter(){
+            @Override
+                public void windowClosing(WindowEvent e) {
+                    Instrutor instrutorLogado = instrutorDao.recuperarInstrutorLogado();
+                    instrutorDao.alterarLogadoInstrutor(instrutorLogado, false);
+                    dispose();
+                }
+        });
     }
 
     /**

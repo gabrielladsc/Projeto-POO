@@ -13,6 +13,8 @@ import Data.dao.AlunoDao;
 import Data.dao.AlunoExercicioDao;
 import Data.dao.ExercicioDao;
 import Data.dao.InstrutorDao;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
@@ -59,6 +61,15 @@ public class CadastrarAluno extends javax.swing.JFrame {
         initList();
         //inicial tela no centro
         this.setLocationRelativeTo(null);
+        
+        //Altera o status de logado do instrutor para false
+        addWindowListener(new WindowAdapter(){
+            @Override
+                public void windowClosing(WindowEvent e) {
+                    instrutorDao.alterarLogadoInstrutor(instrutorLogado, false);
+                    dispose();
+                }
+        });
     }
 
     /**

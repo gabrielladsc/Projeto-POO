@@ -14,6 +14,8 @@ import Data.dao.AlunoDao;
 import Data.dao.AlunoExercicioDao;
 import Data.dao.ExercicioDao;
 import Data.dao.InstrutorDao;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -60,9 +62,9 @@ public class EditarAluno extends javax.swing.JFrame {
     public EditarAluno() {
         //iniciliza a lista de exercicios do aluno
         this.exerciciosAlunoSelecionado = new ArrayList();
-        InstrutorDao instrutoDao = new InstrutorDao();
+        InstrutorDao instrutorDao = new InstrutorDao();
         //Recupera o instrutor atualmente logado
-        instrutorLogado = instrutoDao.recuperarInstrutorLogado();
+        instrutorLogado = instrutorDao.recuperarInstrutorLogado();
         //título da tela Editar Aluno
         this.setTitle("Editar Aluno");
         //Inicializa os componentes da tela
@@ -71,6 +73,15 @@ public class EditarAluno extends javax.swing.JFrame {
         initComboBox();
         //inicia tela no centro
         this.setLocationRelativeTo(null);
+        
+        //Altera o status de logado do instrutor para false
+        addWindowListener(new WindowAdapter(){
+            @Override
+                public void windowClosing(WindowEvent e) {
+                    instrutorDao.alterarLogadoInstrutor(instrutorLogado, false);
+                    dispose();
+                }
+        });
     }
 
     /**
