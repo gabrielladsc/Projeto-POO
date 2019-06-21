@@ -7,7 +7,6 @@ package View;
 
 import Data.Instrutor;
 import Data.MySqlConnector;
-import Data.dao.AlunoDao;
 import Data.dao.InstrutorDao;
 import java.util.List;
 import javax.swing.JOptionPane;

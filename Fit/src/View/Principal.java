@@ -7,6 +7,7 @@ package View;
 
 import Data.Instrutor;
 import Data.MySqlConnector;
+import Data.dao.AlunoDao;
 import Data.dao.InstrutorDao;
 
 /**
@@ -24,6 +25,8 @@ public class Principal extends javax.swing.JFrame {
 
     //Variável de gerenciamento do instrutor entre a aplicação e o banco
     private final InstrutorDao instrutorDao = new InstrutorDao();
+    
+    private final AlunoDao alunoDao = new AlunoDao();
 
     /**
      * Construtor que inicializa a tela Principal.
@@ -31,6 +34,8 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         //Recupera do banco o instrutor que está logado
         instrutorLogado = instrutorDao.recuperarInstrutorLogado();
+        //Procura por alunos sem instrutor e atribui eles ao instrutor que logou
+        alunoDao.alterarInstrutorDeAlunos(instrutorLogado.getId());
         //título da tela Principal
         setTitle("Fit");
         //Inicializa os componentes da tela

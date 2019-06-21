@@ -129,4 +129,20 @@ public class AlunoDao extends Dao {
             return false;
         }
     }
+    
+    /**
+     * Procura por alunos sem instrutor e atribui eles para o instrutor
+     * que acabou de logar.
+     */
+    public void alterarInstrutorDeAlunos(int novoInstrutorId) {
+        String query = "UPDATE aluno SET idInstrutor = " + novoInstrutorId + 
+                " WHERE idInstrutor IS NULL";
+
+        try {
+            this.statement = this.connection.createStatement();
+            this.statement.executeUpdate(query);
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+    }
 }
