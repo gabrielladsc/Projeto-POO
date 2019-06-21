@@ -6,6 +6,7 @@
 package View;
 
 import Data.Instrutor;
+import Data.MySqlConnector;
 import Data.dao.InstrutorDao;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -165,10 +166,13 @@ public class EsqueceuSenha extends javax.swing.JFrame {
         if (instrutor != null) {
             if (senha.equals(confirmarSenha)) {
                 instrutor.setSenha(senha);
-                instrutorDao.atualizarInstrutor(instrutor);
-                LoginInstrutor lo = new LoginInstrutor();
-                lo.setVisible(true);
-                this.dispose();
+                if (instrutorDao.atualizarInstrutor(instrutor)) {
+                    JOptionPane.showMessageDialog(null, "Senha atualizada");
+                    MySqlConnector.closeConnection();
+                    LoginInstrutor lo = new LoginInstrutor();
+                    lo.setVisible(true);
+                    this.dispose();
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Senhas diferem");
             }

@@ -6,6 +6,7 @@
 package View;
 
 import Data.Instrutor;
+import Data.MySqlConnector;
 import Data.dao.InstrutorDao;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -169,6 +170,7 @@ public class LoginInstrutor extends javax.swing.JFrame {
                     //Altera o status do instrutor para logado e encaminha para a 
                     //Tela Principal
                     instrutorDao.alterarLogadoInstrutor(listaDeInstrutores.get(i), true);
+                    MySqlConnector.closeConnection();
                     Principal prin = new Principal();
                     prin.setVisible(true);
                     this.dispose();

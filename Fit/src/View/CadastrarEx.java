@@ -6,6 +6,7 @@
 package View;
 
 import Data.Exercicio;
+import Data.MySqlConnector;
 import Data.dao.ExercicioDao;
 import javax.swing.JOptionPane;
 
@@ -134,6 +135,7 @@ public class CadastrarEx extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Cria uma instância da tela de Principal e a torna visível
         //removendo a tela de Cadastrar Exercício
+        MySqlConnector.closeConnection();
         Principal p2 = new Principal();
         p2.setVisible(true);
         this.dispose();
@@ -163,6 +165,7 @@ public class CadastrarEx extends javax.swing.JFrame {
             //Senão, mostra mensagem de erro
             if (exercicioDao.adicionarExercicio(exercicio)) {
                 JOptionPane.showMessageDialog(null, "Exercício criado com sucesso!");
+                MySqlConnector.closeConnection();
                 Principal telaP = new Principal();
                 telaP.setVisible(true);
                 this.dispose();

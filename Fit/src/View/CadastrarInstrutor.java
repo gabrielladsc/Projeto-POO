@@ -6,6 +6,7 @@
 package View;
 
 import Data.Instrutor;
+import Data.MySqlConnector;
 import Data.dao.InstrutorDao;
 import javax.swing.JOptionPane;
 
@@ -155,6 +156,7 @@ public class CadastrarInstrutor extends javax.swing.JFrame {
                 //Senão, mostra mensagem de erro
                 if (instrutorDao.adicionarInstrutor(instrutor)) {
                     JOptionPane.showMessageDialog(null, "Instrutor criado com sucesso!");
+                    MySqlConnector.closeConnection();
                     LoginInstrutor lo = new LoginInstrutor();
                     lo.setVisible(true);
                     this.dispose();
@@ -176,6 +178,7 @@ public class CadastrarInstrutor extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Cria uma instância da tela de Login e a torna visível
         //removendo a tela de Cadastrar Instrutor
+        MySqlConnector.closeConnection();
         LoginInstrutor logIns = new LoginInstrutor();
         logIns.setVisible(true);
         this.dispose();

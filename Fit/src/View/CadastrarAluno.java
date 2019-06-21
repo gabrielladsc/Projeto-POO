@@ -8,6 +8,7 @@ package View;
 import Data.Aluno;
 import Data.Exercicio;
 import Data.Instrutor;
+import Data.MySqlConnector;
 import Data.dao.AlunoDao;
 import Data.dao.AlunoExercicioDao;
 import Data.dao.ExercicioDao;
@@ -377,6 +378,7 @@ public class CadastrarAluno extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Cria uma instância da tela Principal e a torna visível
         //removendo a tela de Cadastrar Aluno
+        MySqlConnector.closeConnection();
         Principal p = new Principal();
         p.setVisible(true);
         this.dispose();
@@ -447,7 +449,7 @@ public class CadastrarAluno extends javax.swing.JFrame {
 
                 if (insercaoOk) {
                     JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!");
-
+                    MySqlConnector.closeConnection();
                     //volta pra tela principal
                     Principal p = new Principal();
                     p.setVisible(true);

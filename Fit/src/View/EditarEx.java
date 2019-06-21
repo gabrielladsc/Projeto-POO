@@ -6,6 +6,7 @@
 package View;
 
 import Data.Exercicio;
+import Data.MySqlConnector;
 import Data.dao.AlunoExercicioDao;
 import Data.dao.ExercicioDao;
 import java.util.List;
@@ -254,6 +255,7 @@ public class EditarEx extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         //Cria uma instância da tela Principal e a torna visível
         //removendo a tela de Editar Exercício
+        MySqlConnector.closeConnection();
         Principal p4 = new Principal();
         p4.setVisible(true);
         this.dispose();

@@ -6,6 +6,7 @@
 package View;
 
 import Data.Instrutor;
+import Data.MySqlConnector;
 import Data.dao.InstrutorDao;
 
 /**
@@ -170,6 +171,7 @@ public class Principal extends javax.swing.JFrame {
         //Cria uma instância da tela de Login e a torna visível
         //removendo a tela Principal
         instrutorDao.alterarLogadoInstrutor(instrutorLogado, false);
+        MySqlConnector.closeConnection();
         LoginInstrutor log = new LoginInstrutor();
         log.setVisible(true);
         this.dispose();

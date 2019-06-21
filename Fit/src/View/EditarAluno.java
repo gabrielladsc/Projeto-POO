@@ -9,6 +9,7 @@ import Data.Aluno;
 import Data.AlunoExercicio;
 import Data.Exercicio;
 import Data.Instrutor;
+import Data.MySqlConnector;
 import Data.dao.AlunoDao;
 import Data.dao.AlunoExercicioDao;
 import Data.dao.ExercicioDao;
@@ -483,6 +484,7 @@ public class EditarAluno extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         //Cria uma instância da tela Principal e a torna visível
         //removendo a tela de Editar Aluno
+        MySqlConnector.closeConnection();
         Principal princi = new Principal();
         princi.setVisible(true);
         this.dispose();
