@@ -166,7 +166,7 @@ public class EsqueceuSenha extends javax.swing.JFrame {
         if (instrutor != null) {
             if (senha.equals(confirmarSenha)) {
                 instrutor.setSenha(senha);
-                if (instrutorDao.atualizarInstrutor(instrutor)) {
+                if (instrutorDao.atualizarSenhaInstrutor(instrutor)) {
                     JOptionPane.showMessageDialog(null, "Senha atualizada");
                     MySqlConnector.closeConnection();
                     LoginInstrutor lo = new LoginInstrutor();

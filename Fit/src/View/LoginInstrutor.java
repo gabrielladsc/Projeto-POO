@@ -160,6 +160,14 @@ public class LoginInstrutor extends javax.swing.JFrame {
         //um instrutor para posteriormente realizar o login
         if (listaDeInstrutores.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Registre um novo instrutor!");
+        } else if (nome.equals("admin")) {
+            if (senha.equals("admin")) {
+                Administrador admin = new Administrador();
+                admin.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Informações inválidas");
+            }
         } else {
             //Para cada instrutor cadastrado, verifica se o nome e senha digitados
             //bate com algum instrutor já criado. Se sim, realiza-se o login, senão
