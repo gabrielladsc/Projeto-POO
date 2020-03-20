@@ -407,7 +407,7 @@ public class EditarAluno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        /*quando um italunoem for selecionado, recupera a posição do item selecionado
+        /*quando um aluno for selecionado, recupera a posição do item selecionado
         através do combo box e consequentemente o exercicio selecionado 
         preenchendo os campos de acordo com as informações no aluno.
          */
@@ -433,14 +433,20 @@ public class EditarAluno extends javax.swing.JFrame {
             montarListaDeExercicios();
         } else {
             //Esvazia-se e desabilita os campos
-            ComponentController.alterarJText(false, "", jTextField1);
-            ComponentController.alterarJText(false, "", jTextField2);
-            ComponentController.alterarJText(false, "", jTextField3);
+            ComponentController.alterarJText(false, " ", jTextField1);
+            ComponentController.alterarJText(false, " ", jTextField2);
+            ComponentController.alterarJText(false, " ", jTextField3);
+            ComponentController.alterarJText(false, " ", jTextField4);
+            ComponentController.alterarJText(false, " ", jTextField5);
             ComponentController.alterarComponente(false, jComboBox2);
             ComponentController.alterarComponente(false, jList1);
             ComponentController.alterarComponente(false, jList2);
             ComponentController.alterarComponente(false, jButton1);
             ComponentController.alterarComponente(false, jButton2);
+            
+            Vector<String> listaVazia = new Vector();
+            jList1.setListData(listaVazia);
+            jList2.setListData(listaVazia);
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 

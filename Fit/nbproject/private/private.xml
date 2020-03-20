@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/Aluno.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/View/EditarEx.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/Exercicio.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/resources/background.jpg</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/util/ComponentController.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/View/Administrador.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/View/CadastrarAluno.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/dao/InstrutorDao.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/Instrutor.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/resources/fit.jpg</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Java/Main.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/dao/Dao.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/View/CadastrarEx.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/View/Principal.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/dao/AlunoDao.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/AlunoExercicio.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/View/EditarAluno.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/MySqlConnector.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/dao/AlunoExercicioDao.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/View/LoginInstrutor.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/View/CadastrarInstrutor.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/Data/dao/ExercicioDao.java</file>
+            <file>file:/C:/Users/gabi0/Documents/ProjetoPOO/projeto-poo/Fit/src/View/EsqueceuSenha.java</file>
+        </group>
+    </open-files>
 </project-private>
